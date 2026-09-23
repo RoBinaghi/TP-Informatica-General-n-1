@@ -19,6 +19,33 @@
  </nav>
  </header>
  <main>
+<!-- PASO 1 (div): Selección de modo de juego -->
+<div id="pasoModo">
+  <label>¿Jugás solo o con alguien?</label><br>
+  <button type="button" id="jugarContraCompu">Jugar contra la computadora</button>
+  <button type="button" id="jugarConParticipantes">Jugar con más participantes</button>
+</div>
+
+<!-- PASO 2 (form): Cantidad de participantes -->
+<form id="ingresoDatos2" hidden>
+  <label>¿Cuántos participantes son?</label><br>
+  <input type="number" name="cantidadParticipantes" id="cantidadParticipantes" min="2"><br>
+  <button type="button" id="ingresarCantidad">Ingresar cantidad</button>
+</form>
+
+<!-- PASO 3 (form): Nombre del participante -->
+<form id="ingresoDatos3" hidden>
+  <label id="nombreNumero">Nombre del participante</label><br>
+  <input type="text" name="nombreJugador" id="nombreJugador"><br>
+  <button type="button" id="ingresarNombre">Ingresar Nombre</button>
+</form>
+
+<!-- PASO 4 (div): Pantalla de inicio del juego (Dados) -->
+<div id="pasoJuego" hidden>
+  <button type="button" id="tirarDados">Tirar dados</button>
+  <button type="button" id="plantarse">Plantarse</button>
+</div>
+
  </main>
  <footer>
  </footer>

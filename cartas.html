@@ -19,6 +19,32 @@
  </nav>
  </header>
  <main>
+<!-- Seleccionar si se juega con gente o solo -->
+<div id="pasoModo">
+  <label>¿Jugás solo o con alguien?</label><br>
+  <button type="button" id="jugarContraCompu">Jugar contra la computadora</button>
+  <button type="button" id="jugarConParticipantes">Jugar con más participantes</button>
+</div>
+
+<!-- Ingresar datos de cantidad -->
+<form id="ingresoDatos2" hidden>
+  <label>¿Cuántos participantes son?</label>
+  <input type="number" name="cantidadParticipantes" id="cantidadParticipantes" min="2"><br>
+  <button type="button" id="ingresarCantidad">Ingresar cantidad</button>
+</form>
+
+<!-- Ingresar datos de nombre -->
+<form id="ingresoDatos3" hidden>
+  <label id="nombreNumero">Nombre del participante</label>
+  <input type="text" name="nombreJugador" id="nombreJugador"><br>
+  <button type="button" id="ingresarNombre">Ingresar Nombre</button>
+</form>
+
+<!-- Inicio de juego (Al hacer visible pasoJuego se verá todo su contenido) -->
+<div id="pasoJuego" hidden>
+  <button type="button" id="robarMaso">Robar de la casita</button>
+</div>
+
  </main>
  <footer>
  </footer>
