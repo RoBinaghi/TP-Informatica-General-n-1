@@ -38,6 +38,36 @@
       <input type="text" name="nombreJugador" id="nombreJugador" placeholder="Nombre o alias"><br>
       <button type="button" id="ingresarNombre">Ingresar Nombre</button>
     </form>
+    
+    <!-- Paso 3: Área activa de juego -->
+    <section id="pasoJuego" hidden>
+      <div class="contenedor-poster">
+        <img id="poster-pelicula" src="" alt="Póster con desenfoque">
+      </div>
+      <p id="indicador-tiempo">Tiempo restante para puntaje máximo: <span id="segundos">15</span>s</p>
+      <div id="contenedor-opciones" class="grilla-opciones"></div>
+    </section>
+
+    <!-- Paso 4: Resultados finales y récords locales (falta pasar los datos a la pagina de puntajes ) -->
+    <section id="pantalla-final" hidden>
+      <h2>¡Fin de la Partida!</h2>
+      <div class="tabla-records">
+        <h3>Puntajes Finales de la Partida</h3>
+        <ul id="lista-puntajes-partida"></ul>
+      </div>
+
+      <div class="tabla-records">
+        <h3>Historial de Récords Locales</h3>
+        <ul id="lista-records"></ul>
+      </div>
+
+      <button id="btn-reiniciar" type="button">Jugar Nueva Partida</button>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
 
  </main> 
  <footer>
