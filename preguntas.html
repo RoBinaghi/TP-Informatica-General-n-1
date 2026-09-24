@@ -19,6 +19,25 @@
  </nav>
  </header>
  <main>
+    <h1>Cinefilia: Duelo de Películas</h1>
+      <div id="marcador" class="marcador" hidden>
+        <p>Turno: <span id="texto-turno-jugador">-</span></p>
+        <p>Ronda: <span id="texto-ronda">1</span> / 5</p>
+        <p>Puntos de la ronda: <span id="texto-puntos">0</span></p>
+      </div>
+ <!-- Paso 1: Ingresar cantidad de participantes -->
+    <form id="ingresoDatos2">
+      <label for="cantidadParticipantes">¿Cuántos participantes son?</label><br>
+      <input type="number" name="cantidadParticipantes" id="cantidadParticipantes" min="1" placeholder="Mínimo 1"><br>
+      <button type="button" id="ingresarCantidad">Ingresar cantidad</button>
+    </form>
+
+    <!-- Paso 2: Ingresar nombres de forma secuencial -->
+    <form id="ingresoDatos3" hidden>
+      <label id="nombreNumero" for="nombreJugador">Nombre del participante 1:</label><br>
+      <input type="text" name="nombreJugador" id="nombreJugador" placeholder="Nombre o alias"><br>
+      <button type="button" id="ingresarNombre">Ingresar Nombre</button>
+    </form>
 
  </main> 
  <footer>
