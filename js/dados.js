@@ -11,10 +11,12 @@ const nombreJugador = document.querySelector("#nombreJugador");
 const nombreNumero = document.querySelector("#nombreNumero");
 
 
-
+//TODAS LAS VARIABLES DEL JUEGO VAN AQUI  
 let esContraCompu = false;
 let totalJugadores = 1;
-let listaNombres = [];
+let listaNombres = []; 
+let jugadorActual = 0;
+let puntajes = []; 
 
 // ==========================================
 // Validar y capturar la elección de jugar contra la computadora o con más participantes
@@ -76,8 +78,16 @@ ingresarNombre.addEventListener("click", (e) => {
 
     ingresoDatos3.hidden = true;
     pasoJuego.hidden = false;
+    jugadorActual = 0;   //PARA INDICAR QUE JUGADOR ESTA JUGANDO
+    puntajes = []; //MUESTRA LA SUMA ACUMULADA DE LOS DADOS
+
+    for (let i = 0; i < listaNombres.length; i++) {
+        puntajes.push(0);
+    }
+    iniciarTurno();
 
     console.log("Jugadores registrados:", listaNombres);
+
   } else {
     // Si juegan varios: va guardando de a uno hasta completar la cantidad
     listaNombres.push(nombre);
@@ -89,6 +99,14 @@ ingresarNombre.addEventListener("click", (e) => {
       // Se cargaron todos los nombres, arranca el juego de dados
       ingresoDatos3.hidden = true;
       pasoJuego.hidden = false;
+      
+      jugadorActual = 0;
+      puntajes = [];
+      
+      for (let i = 0; i < listaNombres.length; i++) {
+         puntajes.push(0);
+      }
+      iniciarTurno();
 
       console.log("Jugadores registrados:", listaNombres);
     }
@@ -101,4 +119,30 @@ ingresarNombre.addEventListener("click", (e) => {
 
 const tirarDados = document.querySelector("#tirarDados");
 const plantarse = document.querySelector("#plantarse");
-const pasoJuego = document.querySelector("#pasoJuego");
+const pasoJuego = document.querySelector("#pasoJuego"); 
+const turnoJugador = document.querySelector("#turnoJugador");
+const resultadosDados =document.querySelector("#resultadosDados");
+const puntajeActual = document.querySelector("#puntajeActual");
+const mensajeJuego = document.querySelector("#mensajeJuego"); 
+
+//INICIO DEL TURNO 
+function iniciarTurno() {
+    turnoJugador.innerText = "Turno de: " + listaNombres[jugadorActual];
+    puntajeActual.innerText = "0";
+    resultadosDados.innerText = "-";
+} 
+
+//BOTON TIRAR DADOS 
+tirarDados.addEventListener("click", () => {
+    const dado1 = Math.floor(Math.random() * 6) + 1;  //estos generan dos numeros al azar entre 1 y 6
+    const dado2 = Math.floor(Math.random() * 6) + 1;
+
+    const suma = dado1 + dado2;
+
+    resultadosDados.innerText = dado1 + " + " + dado2 + " = " + suma;
+
+    puntajes[jugadorActual] = puntajes[jugadorActual] + suma;
+
+    puntajeActual.innerText = puntajes[jugadorActual];
+}); 
+

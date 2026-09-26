@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,8 @@
     <title>Juego de dados</title>
 </head>
 <body>
-<header><nav>
+<header> 
+  <nav>
     <ul>
         <li><a href="index.html">Inicio</a></li>
         <li><a href="dados.html">Juego de dados</a></li>
@@ -17,36 +18,44 @@
         <li><a href="proyecto.html">Sobre el proyecto</a></li>
     </ul>    
  </nav>
- </header>
+</header>
  <main>
-<!-- PASO 1 (div): Selección de modo de juego -->
-<div id="pasoModo">
+  <!-- PASO 1 (div): Selección de modo de juego -->
+ <div id="pasoModo">
   <label>¿Jugás solo o con alguien?</label><br>
   <button type="button" id="jugarContraCompu">Jugar contra la computadora</button>
   <button type="button" id="jugarConParticipantes">Jugar con más participantes</button>
-</div>
+ </div>
 
-<!-- PASO 2 (form): Cantidad de participantes -->
+ <!-- PASO 2 (form): Cantidad de participantes -->
 <form id="ingresoDatos2" hidden>
   <label>¿Cuántos participantes son?</label><br>
   <input type="number" name="cantidadParticipantes" id="cantidadParticipantes" min="2"><br>
   <button type="button" id="ingresarCantidad">Ingresar cantidad</button>
 </form>
 
-<!-- PASO 3 (form): Nombre del participante -->
+ <!-- PASO 3 (form): Nombre del participante-->
 <form id="ingresoDatos3" hidden>
   <label id="nombreNumero">Nombre del participante</label><br>
   <input type="text" name="nombreJugador" id="nombreJugador"><br>
   <button type="button" id="ingresarNombre">Ingresar Nombre</button>
 </form>
 
-<!-- PASO 4 (div): Pantalla de inicio del juego (Dados) -->
+ <!-- PASO 4 (div): Pantalla de inicio del juego (Dados) -->
 <div id="pasoJuego" hidden>
+  <h2 id="turnoJugador"></h2>
+  <p>Resultados de los dados: <span id="resultadosDados">-</span></p>
+  <p>Puntaje actual: <span id="puntajeActual">0</span></p>
   <button type="button" id="tirarDados">Tirar dados</button>
   <button type="button" id="plantarse">Plantarse</button>
+  <p id="mensajeJuego"></p>
 </div>
-
- </main>
+ <!--DESPUES COLOCAMOS EL TEXTO DE LAS REGLAS-->
+ <section>
+    <h2>Reglas del juego</h2>
+    <div id="reglas"></div>
+  </section> 
+</main>
  <footer>
  </footer>
  <script src="js/dados.js"></script>
