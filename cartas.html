@@ -40,10 +40,23 @@
   <button type="button" id="ingresarNombre">Ingresar Nombre</button>
 </form>
 
-<!-- Inicio de juego (Al hacer visible pasoJuego se verá todo su contenido) -->
-<div id="pasoJuego" hidden>
-  <button type="button" id="robarMaso">Robar de la casita</button>
-</div>
+<!-- Inicio de juego -->
+  <div id="pasoJuego" hidden>
+    <h2 id="turnoJugador">Turno de: </h2>
+    <p id="mensajeJuego">¡Selecciona una carta de tu mano para jugar!</p>
+
+    <!-- Mesa Central -->
+    <h3>Mesa</h3>
+    <div id="mesa" class="mesa-container"></div>
+    <button type="button" id="tirarAMesa">Tirar carta seleccionada a la mesa</button>
+
+    <!-- Estado del Rival / Casitas -->
+    <div id="contenedorCasitas"></div>
+
+    <!-- Mano del jugador activo -->
+    <h3>Tu Mano</h3>
+    <div id="mano" class="mano-container"></div>
+  </div>
 
  </main>
  <footer>
