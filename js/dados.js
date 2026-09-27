@@ -10,13 +10,13 @@ const numeroParticipantes = document.querySelector("#cantidadParticipantes");
 const nombreJugador = document.querySelector("#nombreJugador");
 const nombreNumero = document.querySelector("#nombreNumero");
 
-
 //TODAS LAS VARIABLES DEL JUEGO VAN AQUI  
 let esContraCompu = false;
 let totalJugadores = 1;
 let listaNombres = []; 
 let jugadorActual = 0;
 let puntajes = []; 
+let juegoTerminado = false; 
 
 // ==========================================
 // Validar y capturar la elección de jugar contra la computadora o con más participantes
@@ -100,8 +100,8 @@ ingresarNombre.addEventListener("click", (e) => {
       ingresoDatos3.hidden = true;
       pasoJuego.hidden = false;
       
-      jugadorActual = 0;
-      puntajes = [];
+      jugadorActual = 0; //indica quien esta jugando
+      puntajes = [];  //MUESTRA LA SUMA ACUMULADA DE LOS DADOS
       
       for (let i = 0; i < listaNombres.length; i++) {
          puntajes.push(0);
@@ -131,18 +131,90 @@ function iniciarTurno() {
     puntajeActual.innerText = "0";
     resultadosDados.innerText = "-";
 } 
+function turnoComputadora() { 
+  //SI TIENE MENOS DE 17, SIGUE TIRANDO
+  while (puntajes[jugadorActual] < 17) {
+    const dado1 = Math.floor(Math.random() * 6) + 1;
+    const dado2 = Math.floor(Math.random() * 6) + 1;
 
+    const suma = dado1 + dado2;
+
+    resultadosDados.innerText = dado1 + " + " + dado2 + " = " + suma;
+    puntajes[jugadorActual] = puntajes[jugadorActual] + suma;
+    puntajeActual.innerText = puntajes[jugadorActual]; 
+  } 
+  //PERO SI SE PASA DE 21, DEJA DE TIRAR 
+  if (puntajes[jugadorActual] > 21) {
+     mensajeJuego.innerText = "La computadora se pasó de 21 con " +
+            puntajes[jugadorActual] + " puntos.";
+    } else if (puntajes[jugadorActual] === 21) {
+        mensajeJuego.innerText = "¡La computadora llegó a 21!";
+    } else {
+        mensajeJuego.innerText = "La computadora se plantó con " +
+            puntajes[jugadorActual] + " puntos.";
+  } 
+}
+//COMPARA PTS PARA DEFINIR EL FINAL DEL JUEGO, VER QUIEN GANO O SI HUBO EMPATE
+function compararResultados(puntajeJugador) {
+    const puntajeComputadora = puntajes[1];
+        //ESTE ES PARA CUANDO EL USUARIO SE PASO DE 21
+    if (puntajeJugador > 21) {
+        mensajeJuego.innerText =
+            "Te pasaste de 21. ¡Ganó la computadora!";
+    } 
+      //ESTE PARA CUANDO LA COMPU SE PASA DE 21
+     else if (puntajeComputadora > 21) {
+        mensajeJuego.innerText =
+            "La computadora se pasó de 21. ¡Ganaste!";
+    } 
+      //CASO QUE AMBOS TENGAN PUNTOS IGUALES.
+     else if (puntajeJugador === puntajeComputadora) {
+        mensajeJuego.innerText =
+            "¡Empate! Los dos tienen " + puntajeJugador + " puntos.";
+    } 
+     //CASO QUE EL USUARIO GANE. SE DEFINE SI SE PLANTO EN UN N° MENOR A 21 PERO QUE ESTE ACERCA. 
+     else if (puntajeJugador > puntajeComputadora) {
+        mensajeJuego.innerText =
+            "¡Ganaste! Vos: " + puntajeJugador +
+            " - Computadora: " + puntajeComputadora;
+    } 
+     //CASO GANE LA COMPU. SE DEFINE CON QUIEN TENGA UN N° MENOR A 21 PERO QUE ESTE CERCA
+     else {
+        mensajeJuego.innerText =
+            "Ganó la computadora. Vos: " + puntajeJugador +
+            " - Computadora: " + puntajeComputadora;
+    }
+}
 //BOTON TIRAR DADOS 
-tirarDados.addEventListener("click", () => {
+tirarDados.addEventListener("click", () => { 
+  if (juegoTerminado) {
+    return;
+  }
+    if (jugadorActual === 1) {
+      return;
+    } 
     const dado1 = Math.floor(Math.random() * 6) + 1;  //estos generan dos numeros al azar entre 1 y 6
     const dado2 = Math.floor(Math.random() * 6) + 1;
 
     const suma = dado1 + dado2;
 
     resultadosDados.innerText = dado1 + " + " + dado2 + " = " + suma;
-
     puntajes[jugadorActual] = puntajes[jugadorActual] + suma;
-
     puntajeActual.innerText = puntajes[jugadorActual];
+}); 
+
+//BOTON PLANTARSE- PARA TERMINAR EL TURNO Y PASAR AL SIGUIENTE JUGADOR
+plantarse.addEventListener("click", () => { 
+  const puntajeJugador = puntajes[jugadorActual];
+
+    mensajeJuego.innerText = listaNombres[jugadorActual] +
+        " se plantó con " + puntajes[jugadorActual] + " puntos.";
+    jugadorActual++; 
+
+    iniciarTurno();
+    
+    turnoComputadora(); 
+    compararResultados(puntajeJugador);
+
 }); 
 
