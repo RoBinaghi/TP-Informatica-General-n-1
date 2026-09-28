@@ -17,6 +17,9 @@ let listaNombres = [];
 let jugadorActual = 0;
 let puntajes = []; 
 let juegoTerminado = false; 
+let ronda = 1; 
+let resultadosRondas = []; 
+let huboDesempate = false;
 
 // ==========================================
 // Validar y capturar la elección de jugar contra la computadora o con más participantes
@@ -116,7 +119,7 @@ ingresarNombre.addEventListener("click", (e) => {
 // ==========================================
 // Inicio del juego de dados
 // ==========================================
-
+//buscar botones 
 const tirarDados = document.querySelector("#tirarDados");
 const plantarse = document.querySelector("#plantarse");
 const pasoJuego = document.querySelector("#pasoJuego"); 
@@ -124,10 +127,13 @@ const turnoJugador = document.querySelector("#turnoJugador");
 const resultadosDados =document.querySelector("#resultadosDados");
 const puntajeActual = document.querySelector("#puntajeActual");
 const mensajeJuego = document.querySelector("#mensajeJuego"); 
+const historialRondas = document.querySelector("#historialRondas"); 
+const jugarDeNuevo = document.querySelector("#jugarDeNuevo"); 
+const desempatar = document.querySelector("#desempatar");
 
 //INICIO DEL TURNO 
 function iniciarTurno() {
-    turnoJugador.innerText = "Turno de: " + listaNombres[jugadorActual];
+    turnoJugador.innerText = "Ronda: " + ronda + "-Turno de:" + listaNombres[jugadorActual];
     puntajeActual.innerText = "0";
     resultadosDados.innerText = "-";
 } 
@@ -155,9 +161,11 @@ function turnoComputadora() {
   } 
 }
 //COMPARA PTS PARA DEFINIR EL FINAL DEL JUEGO, VER QUIEN GANO O SI HUBO EMPATE
-function compararResultados(puntajeJugador) {
+function compararResultados(puntajeJugador) { 
+  juegoTerminado = true;
+
     const puntajeComputadora = puntajes[1];
-        //ESTE ES PARA CUANDO EL USUARIO SE PASO DE 21
+   //ESTE ES PARA CUANDO EL USUARIO SE PASO DE 21
     if (puntajeJugador > 21) {
         mensajeJuego.innerText =
             "Te pasaste de 21. ¡Ganó la computadora!";
@@ -168,27 +176,108 @@ function compararResultados(puntajeJugador) {
             "La computadora se pasó de 21. ¡Ganaste!";
     } 
       //CASO QUE AMBOS TENGAN PUNTOS IGUALES.
-     else if (puntajeJugador === puntajeComputadora) {
+     else if (puntajeJugador === puntajeComputadora) { 
+      huboDesempate = true; 
         mensajeJuego.innerText =
             "¡Empate! Los dos tienen " + puntajeJugador + " puntos.";
+       desempatar.hidden = false;  
+       resultadosRondas.push( 
+        "Ronda " + ronda + ": " + puntajeJugador + " - " + puntajeComputadora
+      ); 
+      historialRondas.innerText = resultadosRondas.join("\n"); 
     } 
      //CASO QUE EL USUARIO GANE. SE DEFINE SI SE PLANTO EN UN N° MENOR A 21 PERO QUE ESTE ACERCA. 
      else if (puntajeJugador > puntajeComputadora) {
         mensajeJuego.innerText =
-            "¡Ganaste! Vos: " + puntajeJugador +
-            " - Computadora: " + puntajeComputadora;
+            "¡Ganaste! Vos: " + puntajeJugador + "puntos.";
     } 
      //CASO GANE LA COMPU. SE DEFINE CON QUIEN TENGA UN N° MENOR A 21 PERO QUE ESTE CERCA
      else {
         mensajeJuego.innerText =
-            "Ganó la computadora. Vos: " + puntajeJugador +
-            " - Computadora: " + puntajeComputadora;
+            "Ganó la computadora. Tiene: " + puntajeComputadora + "puntos.";
+    }  
+     //CASO AMBOS SE PASEN DE 21 PUNTOS.
+    if (puntajeJugador > 21 && puntajeComputadora > 21 ) {
+       const distanciaJugador = puntajeJugador - 21;
+       const distanciaComputadora = puntajeComputadora - 21; 
+       
+       if (distanciaJugador < distanciaComputadora) {
+         mensajeJuego.innerText =
+       "Ambos se pasaron de 21, pero ganaste vos: " +
+       "Vos: " + puntajeJugador + 
+       " - Computadora: " + puntajeComputadora; 
+        } 
+        else if (distanciaComputadora < distanciaJugador) {
+           mensajeJuego.innerText =
+                "Los dos se pasaron de 21, pero ganó la computadora. " +
+                "Vos: " + puntajeJugador + 
+                " - Computadora: " + puntajeComputadora;
+        } 
+        else {
+            huboDesempate = true;
+
+            mensajeJuego.innerText =
+                "¡Empate! Los dos se pasaron por la misma cantidad.";
+
+            desempatar.hidden = false;
+            resultadosRondas.push(
+                "Ronda " + ronda + ": " + puntajeJugador + 
+                " - " + puntajeComputadora
+            );
+              historialRondas.innerText = resultadosRondas.join("\n");
+            }
+    } 
+     // GUARDA LAS RONDAS DE DESEMPATE QUE TERMINARON CON UN GANADOR
+    if (ronda > 1 && puntajeJugador !== puntajeComputadora) {  
+        resultadosRondas.push( 
+            "Ronda " + ronda + ": " + puntajeJugador + " - " + puntajeComputadora
+        ); 
+
+        historialRondas.innerText = resultadosRondas.join("\n");  
+    }
+    // MUESTRA "JUGAR DE NUEVO" SOLO SI NO HUBO EMPATE
+    if (puntajeJugador !== puntajeComputadora) {
+        jugarDeNuevo.hidden = false;
     }
 }
+//BOTON JUGAR DE NUEVO, PARA VOLVER A JUGAR 
+jugarDeNuevo.addEventListener("click", () => {
+    puntajes = [0, 0];
+    jugadorActual = 0;
+    juegoTerminado = false; 
+
+    ronda = 1; 
+    resultadosRondas = [];
+    huboDesempate = false; 
+
+    resultadosDados.innerText = "-";
+    puntajeActual.innerText = "0";
+    mensajeJuego.innerText = "";
+    historialRondas.innerText = ""; 
+
+    jugarDeNuevo.hidden = true; 
+    desempatar.hidden = true; 
+    iniciarTurno(); 
+}); 
+//BOTON DESEMPATE, SOLO APARECEE EN EMPATES
+desempatar.addEventListener("click", () => {
+  ronda++; 
+  puntajes = [0, 0];
+  jugadorActual = 0;
+  juegoTerminado = false; 
+
+  resultadosDados.innerHTML = "-";
+  puntajeActual.innerHTML = "0";
+  mensajeJuego.innerHTML = "";
+
+  desempatar.hidden = true;
+  iniciarTurno();
+});
+
 //BOTON TIRAR DADOS 
 tirarDados.addEventListener("click", () => { 
   if (juegoTerminado) {
-    return;
+    return;  //deactiva la funcion del boton luego de mostrar el ganador.
   }
     if (jugadorActual === 1) {
       return;
@@ -205,6 +294,9 @@ tirarDados.addEventListener("click", () => {
 
 //BOTON PLANTARSE- PARA TERMINAR EL TURNO Y PASAR AL SIGUIENTE JUGADOR
 plantarse.addEventListener("click", () => { 
+  if (juegoTerminado) {
+    return;  //desactiva la funcion del boton luego de mostrar el ganador.
+  } 
   const puntajeJugador = puntajes[jugadorActual];
 
     mensajeJuego.innerText = listaNombres[jugadorActual] +
@@ -215,6 +307,5 @@ plantarse.addEventListener("click", () => {
     
     turnoComputadora(); 
     compararResultados(puntajeJugador);
-
 }); 
 
