@@ -34,7 +34,7 @@ let turnoActual = 0;
 let cartaSeleccionada = null;
 
 const palos = ['espadas', 'bastos', 'oros', 'copas'];
-const valores = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+const valores = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
 
 // Mapea el nombre del palo al número usado en el nombre de archivo de la imagen
 // (numeroCarta.numeroPalo.png -> por ej. 1.1.png). AJUSTÁ estos números si tus
@@ -125,10 +125,6 @@ ingresarNombre.addEventListener("click", (e) => {
 // Inicio del juego de casita robada
 // ==========================================
 
-// Variables de estado del juego
-
-
-
 function crearMazo() {
   let mazoCreado = [];
 
@@ -165,14 +161,14 @@ function prepararPartida() {
   iniciarTurno();
 }
 
-function repartirManos() {
-  for (let jugador of jugadores) {
+function repartirManos() { //reparte las cartas a los jugadores, 3 por jugador
+  jugadores.forEach((jugador) => {
     for (let i = 0; i < 3; i++) {
       if (mazo.length > 0) {
         jugador.mano.push(mazo.pop());
       }
     }
-  }
+  });
 }
 
 function iniciarTurno() {
@@ -190,11 +186,17 @@ function iniciarTurno() {
   }
 
   actualizarPantalla();
-
+  // Si le toca a la Computadora
+  if (esContraCompu && jugadores[turnoActual].nombre === "Computadora") {
+    setTimeout(turnosCPU, 1000);
+  }
 }
 
 // Crear el elemento HTML de la carta
 function crearElementoCarta(carta, accionAlClic) {
+  // Validación de seguridad por si la carta es undefined
+  if (!carta) return document.createElement("div");
+
   const div = document.createElement("div");
   div.classList.add("carta");
 
@@ -219,11 +221,11 @@ function crearElementoCarta(carta, accionAlClic) {
 function actualizarPantalla() {
   const jugador = jugadores[turnoActual];
 
-  // Mostrar de quién es el turno
+  // 1. Mostrar de quién es el turno
   turnoJugadorEl.innerText = "Turno de: " + jugador.nombre;
   mensajeJuegoEl.innerText = "¡Selecciona una carta de tu mano para jugar!";
 
-  // generar Mesa
+  // 2. Renderizar Mesa
   contenedorMesa.innerHTML = "";
   mesa.forEach((carta, posicion) => {
     const unaCarta = crearElementoCarta(carta, () => {
@@ -232,7 +234,7 @@ function actualizarPantalla() {
     contenedorMesa.appendChild(unaCarta);
   });
 
-  // generar Mano del Jugador Actual
+  // 3. Renderizar Mano del Jugador Actual
   contenedorMano.innerHTML = "";
   jugador.mano.forEach((carta, posicion) => {
     const unaCarta = crearElementoCarta(carta, () => {
@@ -247,20 +249,157 @@ function actualizarPantalla() {
     contenedorMano.appendChild(unaCarta);
   });
 
+  // 4. Renderizar las Casitas (Tu casita + Casitas de contrincantes)
+  contenedorCasitas.innerHTML = "";
+
+  jugadores.forEach((j, posicion) => {
+    // Si la casita del jugador tiene al menos una carta
+    if (j.casita.length > 0) {
+      // Obtenemos solo la carta del tope (la superior)
+      const tope = j.casita[j.casita.length - 1];
+
+      if (posicion === turnoActual) {
+        // MI CASITA: Muestra solo la carta del tope y la cantidad total guardada
+        const divMiCasita = document.createElement("div");
+        divMiCasita.innerHTML = "<p>Tu Casita (" + j.casita.length + " cartas):</p>";
+        
+        const unaCartaTope = crearElementoCarta(tope);
+        divMiCasita.appendChild(unaCartaTope);
+
+        contenedorCasitas.appendChild(divMiCasita);
+      } else {
+        // CASITA CONTRINCANTE: Muestra el botón para robar la casita viendo su tope
+        const btnRobarCasita = document.createElement("button");
+        btnRobarCasita.type = "button";
+        btnRobarCasita.innerText = "Robar casita de " + j.nombre + " (Tope: " + tope.numero + ")";
+        
+        btnRobarCasita.addEventListener("click", () => {
+          robarCasita(posicion);
+        });
+
+        contenedorCasitas.appendChild(btnRobarCasita);
+      }
+    }
+  });
 }
 
-function jugarContraMesa() { // Función para jugar una carta contra la mesa, poder tomar las cartas de la mesa si se puede, o descartarla si no se puede
+ 
+function jugarContraMesa(cartasMesa) {// Función para jugar una carta contra la mesa, poder tomar las cartas de la mesa si se puede, o descartarla si no se puede
+ if (cartaSeleccionada === null) {
+    alert("Primero elegí una carta de tu mano.");
+    return;
+  }
+
+  const jugador = jugadores[turnoActual];
+  const cartaMano = jugador.mano[cartaSeleccionada];
+  const cartaMesa = mesa[cartasMesa];
+
+  if (cartaMano.numero === cartaMesa.numero) {
+    jugador.casita.push(cartaMano, cartaMesa);
+    jugador.mano.splice(cartaSeleccionada, 1);
+    mesa.splice(cartasMesa, 1);
+    pasarturno();
+  } else {
+    alert("Las cartas no coinciden en número.");
+  }
 }
 
-function robarCasita() {
+function robarCasita(cartasRival) {
+  if (cartaSeleccionada === null) {
+    alert("Primero elegí una carta de tu mano.");
+    return;
+  }
+
+  const jugador = jugadores[turnoActual];
+  const rival = jugadores[cartasRival];
+  const cartaMano = jugador.mano[cartaSeleccionada];
+  const topeCasitaRival = rival.casita[rival.casita.length - 1];
+
+  if (cartaMano.numero === topeCasitaRival.numero) {
+    jugador.casita.push(...rival.casita, cartaMano);
+    rival.casita = [];
+    jugador.mano.splice(cartaSeleccionada, 1);
+    pasarturno();
+  } else {
+    alert("No coincide el número con el tope de la casita rival.");
+  }
+}
+
+// Botón de descartar/tirar a la mesa
+if (tirarAMesa) {
+  tirarAMesa.addEventListener("click", () => {
+    if (cartaSeleccionada === null) {
+      alert("Seleccioná una carta de tu mano para descartar.");
+      return;
+    }
+    const jugador = jugadores[turnoActual];
+    const carta = jugador.mano.splice(cartaSeleccionada, 1)[0];
+    mesa.push(carta);
+    pasarturno();
+  });
 }
 
 function pasarturno() {
-
+  turnoActual = (turnoActual + 1) % jugadores.length;
+  iniciarTurno();
 }
 
 function turnosCPU() {
+  const cpu = jugadores[turnoActual];
+
+  // Si la mano de la CPU está vacía, pasa el turno
+  if (!cpu.mano || cpu.mano.length === 0) {
+    pasarturno();
+    return;
+  }
+
+  // 1. Buscar si le puede robar la casita a algún rival
+  for (let i = 0; i < jugadores.length; i++) {
+    if (i !== turnoActual && jugadores[i].casita.length > 0) {
+      const tope = jugadores[i].casita[jugadores[i].casita.length - 1].numero;
+      
+      // Búsqueda manual de la carta en la mano con un bucle for tradicional
+      for (let k = 0; k < cpu.mano.length; k++) {
+        if (cpu.mano[k].numero === tope) {
+          cartaSeleccionada = k;
+          robarCasita(i);
+          return;
+        }
+      }
+    }
+  }
+
+  // 2. Buscar si puede robar de la mesa
+  for (let i = 0; i < cpu.mano.length; i++) {
+    for (let j = 0; j < mesa.length; j++) {
+      if (cpu.mano[i].numero === mesa[j].numero) {
+        cartaSeleccionada = i;
+        jugarContraMesa(j);
+        return;
+      }
+    }
+  }
+
+  // 3. Si no tiene jugada, tira la primera carta a la mesa
+  cartaSeleccionada = 0;
+  const carta = cpu.mano.splice(0, 1);
+  mesa.push(carta);
+  pasarturno();
 }
 
 function evaluarGanador() {
+  let mensaje = "¡Fin del juego!\n\nCartas obtenidas:\n";
+  let maxCartas = -1;
+  let ganador = "";
+
+  jugadores.forEach((j) => {
+    mensaje += `${j.nombre}: ${j.casita.length} cartas\n`;
+    if (j.casita.length > maxCartas) {
+      maxCartas = j.casita.length;
+      ganador = j.nombre;
+    }
+  });
+
+  mensaje += `\n¡El ganador es ${ganador}!`;
+  alert(mensaje);
 }
