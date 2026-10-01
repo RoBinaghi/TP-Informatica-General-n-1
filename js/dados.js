@@ -225,7 +225,7 @@ function compararResultados(puntajeJugador) {
                 " - " + puntajeComputadora
             );
               historialRondas.innerText = resultadosRondas.join("\n");
-            }
+         }
     } 
      // GUARDA LAS RONDAS DE DESEMPATE QUE TERMINARON CON UN GANADOR
     if (ronda > 1 && puntajeJugador !== puntajeComputadora) {  
