@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +7,8 @@
     <title>Juego de cartas</title>
 </head>
 <body>
+  <div id="contenedor">
+   
 <header><nav>
     <ul>
         <li><a href="index.html">Inicio</a></li>
@@ -19,6 +21,7 @@
  </nav>
  </header>
  <main>
+   <h1>Juego de cartas</h1>
 <!-- Seleccionar si se juega con gente o solo -->
 <div id="pasoModo">
   <label>¿Jugás solo o con alguien?</label><br>
@@ -41,26 +44,39 @@
 </form>
 
 <!-- Inicio de juego -->
-  <div id="pasoJuego" hidden>
-    <h2 id="turnoJugador">Turno de: </h2>
-    <p id="mensajeJuego">¡Selecciona una carta de tu mano para jugar!</p>
+<div id="pasoJuego" hidden>
+  <h2 id="turnoJugador">Turno de: </h2>
+  <p id="mensajeJuego">¡Selecciona una carta de tu mano para jugar!</p>
 
-    <!-- Mesa Central -->
-    <h3>Mesa</h3>
-    <div id="mesa" class="mesa-container"></div>
-    <button type="button" id="tirarAMesa">Tirar carta seleccionada a la mesa</button>
+  <!-- TABLERO CENTRAL (Mesa en el centro + Casitas a los costados) -->
+  <div class="tablero-central">
 
-    <!-- Estado del Rival / Casitas -->
-    <div id="contenedorCasitas"></div>
+    <!-- Panel Central: Mesa -->
+    <div class="mesa-seccion">
+      <h3>Mesa</h3>
+      <div id="mesa" class="mesa-container"></div>
+      <button type="button" id="tirarAMesa">Tirar carta seleccionada a la mesa</button>
+    </div>
 
-    <!-- Mano del jugador activo -->
+    <!-- Panel Lateral: Casitas del jugador y competidores -->
+    <div class="casitas-seccion">
+      <h3>Casitas</h3>
+      <div id="contenedorCasitas"></div>
+    </div>
+
+  </div>
+
+  <!-- SECCIÓN INFERIOR: Mano del jugador activo -->
+  <div class="mano-seccion">
     <h3>Tu Mano</h3>
     <div id="mano" class="mano-container"></div>
   </div>
-
+</div>
  </main>
  <footer>
+  <p>pagina de juegos(cambiarnombre) Rocio Binaghi | Kesia Valerde | Rojas Micaela</p>
  </footer>
+ </div>
   <script src="js/cartas.js"></script>
 </body>
 </html>
