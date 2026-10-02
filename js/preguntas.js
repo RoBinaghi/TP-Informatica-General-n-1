@@ -92,22 +92,38 @@ ingresarNombre.addEventListener("click", (e) => {
     obtenerPeliculas();
   }
 });
+// funcion de mensaje de error si la api no contesta
+//function mostrarError(mensaje) {
+ // estado.textContent = mensaje;
+  //estado.className = "rojo";
+ // elementoPregunta.textContent = "";
+  //opciones.innerHTML = "";
+  //resultado.textContent = "";
+ // nueva.hidden = false;
+//} decidir si la conservo, esta en los ejemplos pero la ia me dice que es innecesaria
+
 // ==========================================
 // 2. Consumo de la API con async / await
 // ==========================================
-const obtenerPeliculas = async () => {  //esta distinto a los ejercicios de la profe, verificar si es valido
+async function obtenerPeliculas() { //
   try {
-    const paginaAleatoria = Math.floor(Math.random() * 5) + 1;
+    const paginaAleatoria = Math.floor(Math.random() * 5) + 1; //mathfloor redondea un numero hacia abajo random genera un numero al azar entre 0y1
     const url = `${URL_BASE}/movie/popular?api_key=${API_KEY}&language=es-ES&page=${paginaAleatoria}`;
 
-    const respuesta = await fetch(url); //[cite: 1]
-    const datos = await respuesta.json(); //[cite: 1]
+    const respuesta = await fetch(url);
+
+    if (!respuesta.ok){
+      alert("Ocurrió un error al consultar el servidor de la API.");
+      return;
+    }
+    const datos = await respuesta.json(); 
 
     peliculasCargadas = datos.results.filter(pelicula => pelicula.poster_path !== null);
 
     iniciarPartida();
-  } catch (error) {
-    console.error("Error al conectar con la API:", error); //[cite: 1]
+  } 
+  catch (error) {
+    console.error("Error al conectar con la API:", error); 
     alert("Hubo un error de conexión al consultar la base de datos.");
   }
 };
@@ -116,9 +132,9 @@ const obtenerPeliculas = async () => {  //esta distinto a los ejercicios de la p
 // 3. Flujo y dinámica de rondas y turnos
 // ==========================================
 const iniciarPartida = () => {
-  rondaActual = 1;
   indiceTurnoActual = 0;
-
+  rondaActual = 1;
+ 
   pantallaFinal.hidden = true;
   pasoJuego.hidden = false;
 
@@ -133,7 +149,7 @@ const cargarTurno = () => {
   txtPuntos.innerText = jugadorActivo.puntos;
 
   // Selección aleatoria de la película correcta y distractores
-  const peliculasMezcladas = [...peliculasCargadas].sort(() => 0.5 - Math.random());
+  const peliculasMezcladas = [...peliculasCargadas].sort(() => 0.5 - Math.random());//math random das un numero al azar entre 0y1
   const opciones = peliculasMezcladas.slice(0, 4);
   peliculaCorrecta = opciones[0];
 
@@ -143,8 +159,8 @@ const cargarTurno = () => {
   desenfoqueActual = 15;
   segundosRestantes = 15;
   txtSegundos.innerText = segundosRestantes;
-  imgPoster.src = `${URL_IMAGEN}${peliculaCorrecta.poster_path}`;
-  imgPoster.style.filter = `blur(${desenfoqueActual}px)`;
+  imgPoster.src = `${URL_IMAGEN}${peliculaCorrecta.poster_path}`; //con aytuda de la ia hacemos la toma del poster desde la api en vez de cargar posters en imagenes 
+  imgPoster.style.filter = `blur(${desenfoqueActual}px)`; //hacemos que se produzca un efecto desenfoque desde js con la propiedad style
 
   // Renderizar las 4 opciones en el DOM
   contOpciones.innerHTML = "";
@@ -158,43 +174,56 @@ const cargarTurno = () => {
 
   iniciarTemporizador();
 };
+//Temporizador
+const iniciarTemporizador = function() {
+  clearInterval(timerInterval); //limpio cualquier temporizador previo antes de iniciar
 
-const iniciarTemporizador = () => {
-  clearInterval(timerInterval); //[cite: 2]
+  segundosRestantes = 15;//defino la cantidad de segundos
+  txtSegundos.innerText = segundosRestantes //lo muestro en el dom
 
-  timerInterval = setInterval(() => { //[cite: 2]
-    segundosRestantes--;
-    txtSegundos.innerText = segundosRestantes;
+  timerInterval = setInterval(() => { //defino el temporizador cada 1 segundo
+    segundosRestantes--; //resto cada un segundo
+    txtSegundos.innerText = segundosRestantes; //lo muestro en el dom
 
-    // Disminución progresiva del desenfoque cada 3 segundos
-    if (segundosRestantes % 3 === 0 && desenfoqueActual > 0) {
-      desenfoqueActual -= 3;
-      imgPoster.style.filter = `blur(${desenfoqueActual}px)`;
+    // Disminución progresiva del desenfoque del poster cada 3 segundos, pedido a la ia
+    if (segundosRestantes % 3 === 0 && desenfoqueActual > 0) { //si en la variable segundosRestantes el modulo de 3 es estrictamente igual a O y el desenfoque es mayor a 0
+      desenfoqueActual -= 3; // el desenfoque se reduce 3 unidades
+      imgPoster.style.filter = `blur(${desenfoqueActual}px)`; // imgposter es el elemento img del dom que se captura con queryselect, con style.filter accedo a la propiedad del css para modificar el desenfoque, (`${...}`). Inserta dinámicamente el número actualizado dentro de la cadena de texto CSS. Si la variable vale `12`, el resultado enviado al navegador es `"blur(12px)"
     }
-
+    //finalizacion del turno cuando el temporizador llega a 0
     if (segundosRestantes <= 0) {
-      clearInterval(timerInterval); //[cite: 2]
+      clearInterval(timerInterval); 
       finalizarTurnoPorTiempo();
     }
-  }, 1000); //[cite: 2]
+  }, 1000); //el tiempo de espera en ms en el que se debe ejecutar la funcion
 };
 
 const validarRespuesta = (idSeleccionado, botonPresionado) => {
-  clearInterval(timerInterval); //[cite: 2]
+  clearInterval(timerInterval); // limpio el temporizador
   desactivarBotones();
   imgPoster.style.filter = "blur(0px)";
 
   if (idSeleccionado === peliculaCorrecta.id) {
-    botonPresionado.classList.add("correcta"); //[cite: 4]
+    botonPresionado.classList.add("correcta"); // buscar add en la diapo
     const puntosGanados = 100 + (desenfoqueActual * 20);
     jugadores[indiceTurnoActual].puntos += puntosGanados;
     txtPuntos.innerText = jugadores[indiceTurnoActual].puntos;
   } else {
-    botonPresionado.classList.add("incorrecta"); //[cite: 4]
+    botonPresionado.classList.add("incorrecta"); //buscar en diapo
     resaltarCorrecta();
   }
 
   avanzarFlujo();
+};
+
+// Función auxiliar para revelar la opción correcta si el jugador se equivoca
+const resaltarCorrecta = () => {
+  const botones = document.querySelectorAll(".btn-opcion");
+  botones.forEach(btn => {
+    if (btn.innerText === peliculaCorrecta.title) {
+      btn.classList.add("correcta");
+    }
+  });
 };
 
 const finalizarTurnoPorTiempo = () => {
@@ -209,32 +238,28 @@ const desactivarBotones = () => {
   botones.forEach(btn => btn.disabled = true);
 };
 
-const resaltarCorrecta = () => {
-  const botones = document.querySelectorAll(".btn-opcion");
-  botones.forEach(btn => {
-    if (btn.innerText === peliculaCorrecta.title) {
-      btn.classList.add("correcta"); //[cite: 4]
-    }
-  });
-};
-
+// completar las rondas del jugador
 const avanzarFlujo = () => {
-  setTimeout(() => { //[cite: 2]
-    indiceTurnoActual++;
-
-    // Si todos los participantes ya jugaron su turno, se avanza la ronda
-    if (indiceTurnoActual >= jugadores.length) {
-      indiceTurnoActual = 0;
-      rondaActual++;
-    }
-
-    if (rondaActual <= MAX_RONDAS) {
+  setTimeout(() => { //
+    if (rondaActual < MAX_RONDAS) { //si el turno actual es menor al maximo de rondas 
+      rondaActual++; //se le suma un turno 
       cargarTurno();
-    } else {
-      mostrarPantallaFinal();
     }
-  }, 2000);
+    else{
+      indiceTurnoActual++;
+
+      if (indiceTurnoActual < jugadores.length) {
+        rondaActual = 1;// Se reinician las rondas a 1 para el siguiente participante
+        alert(`¡Turno de ${jugadores[indiceTurnoActual].nombre}! Preparate para jugar tus 5 rondas.`);
+        cargarTurno();
+      } else {
+        mostrarPantallaFinal(); // Todos los participantes completaron sus rondas
+      }
+    }
+  }, 2000);// todo este proceso ocurrira cada 2 segundos
 };
+   // 
+
 
 // ==========================================
 // 4. Pantalla final y persistencia en localStorage
