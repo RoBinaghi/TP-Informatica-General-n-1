@@ -466,3 +466,5 @@ function reiniciarJuego() {
   listaNombres = [];
   jugadores = [];
 }
+
+

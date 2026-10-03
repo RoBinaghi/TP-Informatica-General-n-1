@@ -22,6 +22,30 @@
  </header>
  <main>
    <h1>Juego de cartas</h1>
+
+<!--Instrucciones del juego -->   
+<article>
+
+    <h2> Objetivo del Juego</h2>
+    <p>Capturar la mayor cantidad de cartas posibles de la mesa y de la pila ("casita") del rival para tener el pozo más grande al finalizar el mazo.</p>
+
+    <h2> Preparación</h2>
+    <ul>
+      <li>Se reparten 3 cartas a cada jugador.</li>
+      <li>Se colocan 4 cartas cara arriba en el centro de la mesa.</li>
+      <li>El resto de las cartas forman el mazo de reserva.</li>
+    </ul>
+
+    <h2> Mecánica del Turno</h2>
+    <p>En su turno, un jugador debe bajar 1 carta de su mano y realizar una de estas acciones:</p>
+    <ul>
+      <li><strong>Capturar de la mesa:</strong> Si la carta que baja coincide en número/figura con alguna de la mesa, se lleva ambas cartas a su "casita" (su pila personal de captura).</li>
+      <li><strong>Robar la casita del rival:</strong> Si la carta que baja coincide con la carta superior de la "casita" del oponente, se roba toda la pila del rival y la suma a la suya.</li>
+      <li><strong>Descartar:</strong> Si no puede ni quiere capturar nada, deja su carta cara arriba en la mesa.</li>
+    </ul>
+</div>
+</article>
+
 <!-- Seleccionar si se juega con gente o solo -->
 <div id="pasoModo">
   <label>¿Jugás solo o con alguien?</label><br>
@@ -71,7 +95,7 @@
     <h3>Tu Mano</h3>
     <div id="mano" class="mano-container"></div>
   </div>
-  <button id="volverAJugar" hidden>Volver a Jugar</button>
+<button id="volverAJugar" hidden>Volver a Jugar</button>
 <button id="verPuntajes" hidden>Ver Tabla de Puntajes</button>
 </div>
  </main>
