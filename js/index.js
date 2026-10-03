@@ -1,15 +1,15 @@
 const imagenesJuegos = [
     {
-    normal: 'img/juegospreguntas.jpg',
-    hover: 'img/juegospreguntas2.jpg'
-    }
+    normal: 'img/211.jpg',
+    hover: 'img/212.jpg',
+    },
     {
-        normal: ,
-        hover:
-    }
+        normal:'img/cinefilia1.jpg',
+        hover:'img/cinefilia2.jpg',
+    },
     {
-        normal: ,
-        hoover: ,
+        normal:'img/casitarobada1.jpg',
+        hover:'img/casitarobada2.jpg',
     }
 
 ]
