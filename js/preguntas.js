@@ -64,6 +64,22 @@ ingresarCantidad.addEventListener("click", (e) => {
 
   ingresoDatos2.hidden = true;
   ingresoDatos3.hidden = false;
+  
+  //Habilitacion de campos para carga de nombres
+  nombreJugador.disabled = false;
+  ingresarNombre.disabled = false;
+
+  //Se desabilitan el ingreso de cantidad para evitar modificaciones a mitad del proceso
+  ingresarCantidad.disabled = true
+
+  // Se limpia y deshabilita el campo de cantidad
+  numeroParticipantes.value = ""; // Limpia el número ingresado
+  numeroParticipantes.disabled = true;
+  ingresarCantidad.disabled = true;
+
+  // Se posiciona el foco en el campo de texto
+  nombreJugador.focus();
+  
 });
 
 // Capturar los nombres de manera secuencial
@@ -149,8 +165,13 @@ const cargarTurno = () => {
   txtPuntos.innerText = jugadorActivo.puntos;
 
   // Selección aleatoria de la película correcta y distractores
+ if (peliculasCargadas.length < 4) {
+    alert("No hay suficientes películas para comenzar.");
+    return;
+}
   const peliculasMezcladas = [...peliculasCargadas].sort(() => 0.5 - Math.random());//math random das un numero al azar entre 0y1
   const opciones = peliculasMezcladas.slice(0, 4);
+  
   peliculaCorrecta = opciones[0];
 
   const opcionesDesordenadas = [...opciones].sort(() => 0.5 - Math.random());
@@ -267,6 +288,7 @@ const avanzarFlujo = () => {
 const mostrarPantallaFinal = () => {
   pasoJuego.hidden = true;
   pantallaFinal.hidden = false;
+  btnReiniciar.hidden = false;
 
   renderizarPuntajesPartida();
   guardarRecordsPartida();
@@ -312,15 +334,33 @@ const renderizarRecordsLocales = () => {
 
   // Mostrar el top 5 histórico
   records.slice(0, 5).forEach((rec, index) => {
-    const li = document.createElement("li"); //[cite: 4]
+    const li = document.createElement("li"); //buscar en diapo
     li.innerText = `${index + 1}. ${rec.nombre}: ${rec.puntos} puntos`;
-    listaRecords.append(li); //[cite: 4]
+    listaRecords.append(li); //buscar en diapo
   });
 };
 
-btnReiniciar.addEventListener("click", () => { //[cite: 3]
+btnReiniciar.addEventListener("click", () => { 
   pantallaFinal.hidden = true;
+  btnReiniciar.hidden = true
   marcador.hidden = true;
-  numeroParticipantes.value = "";
+  pasoJuego.hidden = true;
   ingresoDatos2.hidden = false;
+  ingresoDatos3.hidden = false
+
+  numeroParticipantes.value = "";
+  numeroParticipantes.disabled = false;
+
+  nombreJugador.value = "";
+  nombreJugador.disabled = true;
+  ingresarCantidad.disabled = false;
+  ingresarNombre.disabled = true;
+
+  listaNombres = [];
+  jugadores = [];
+  indiceTurnoActual = 0;
+  rondaActual = 1;
+
+  clearInterval(timerInterval);
+  
 });

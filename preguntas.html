@@ -26,7 +26,7 @@
     <h2>Cinefilia: Duelo de Películas</h2>
       <div id="marcador" class="marcador" hidden>
         <p>Turno: <span id="texto-turno-jugador">-</span></p>
-        <p>Ronda: <span id="texto-ronda">1</span> / 6</p>
+        <p>Ronda: <span id="texto-ronda">1</span> / 5</p>
         <p>Puntos de la ronda: <span id="texto-puntos">0</span></p>
       </div>
  <!-- Paso 1: Ingresar cantidad de participantes -->
@@ -37,10 +37,10 @@
     </form>
 
     <!-- Paso 2: Ingresar nombres de forma secuencial -->
-    <form id="ingresoDatos3" hidden>
+    <form id="ingresoDatos3">
       <label id="nombreNumero" for="nombreJugador">Nombre del participante 1:</label><br>
-      <input type="text" name="nombreJugador" id="nombreJugador" placeholder="Nombre o alias"><br>
-      <button type="button" id="ingresarNombre">Ingresar Nombre</button>
+      <input type="text" name="nombreJugador" id="nombreJugador" placeholder="Nombre o alias" disabled><br>
+      <button type="button" id="ingresarNombre" disabled>Ingresar Nombre</button>
     </form>
     
     <!-- Paso 3: Área activa de juego -->
@@ -64,12 +64,11 @@
         <h3>Historial de Récords Locales</h3>
         <ul id="lista-records"></ul>
       </div>
-
-      <button id="btn-reiniciar" type="button">Jugar Nueva Partida</button>
-    </section>
+     </section>
+     <button id="btn-reiniciar" type="button" hidden>Jugar Nueva Partida</button>
   </main>
  <footer>
-<p> <p>pagina de juegos(cambiarnombre) Rocio Binaghi | Kesia Valerde | Rojas Micaela</p></p>
+<p> <p>pagina de juegos(cambiarnombre) Rocio Binaghi | Rojas Micaela</p>
  </footer> 
  </div>
  <script src="js/preguntas.js"></script> 

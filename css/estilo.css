@@ -222,10 +222,89 @@ a:active {
 }
 
 /*estilos para la pagina de preguntas*/
+
+header{
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+header h1{
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+}
+.marcador{
+  display: flex;
+  justify-content: space-around;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: #ffa500;
+  padding: 0.6rem;
+  border-radius: 0.25rem;
+}
+
+/* Formularios */
+#ingresoDatos2, #ingresoDatos3 {
+  display: flex; 
+  flex-direction: column;
+  gap: 0.75rem;
+  text-align: center;
+  padding: 1.25rem 0;
+}
+label{
+  font-size: 1rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+input{
+  width: 100%;
+  padding: 0.6rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+#ingresarCantidad, #ingresarNombre, #btn-reiniciar {
+  padding: 0.75rem;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+}
+#ingresarCantidad:hover, #ingresarNombre:hover, #btn-reiniciar:hover {
+  background-color: #0056b3;
+}
+/*pantalla del juego*/
+.contenedor-poster{
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+  height: 21.25rem;
+  overflow: hidden;
+  border-radius: 0.25rem;
+}
+#poster-pelicula{
+  height: 100%;
+  width: auto;
+  border-radius: 0.25rem;
+  transition: filter 0.4s ease;
+}
+#indicador-tiempo{
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: #cccccc;
+}
+
+#contenedor-opciones{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
 /* Estado base de las opciones */
 .btn-opcion {
-  background-color: #2c2c2c;
-  color: #ffffff;
+  background-color: rgb(255, 252, 252);
+  color: #0a0a0a;
   border: 1px solid #444444;
   padding: 12px;
   border-radius: 4px;
@@ -245,5 +324,51 @@ a:active {
 .btn-opcion.incorrecta {
   background-color: #dc3545 !important;
   border-color: #dc3545 !important;
-  color: #ffffff;
+  color: #ffffff;    
 }
+
+/*pantalla final*/
+#pantalla-final{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1.5rem;
+  margin: 0.2rem;
+  border: 2px solid #ffa500;
+  background-color: rgba(243, 156, 18, 0.1);
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+#pantalla-final h2 {
+  color: rgb(235, 73, 4);
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+#btn-reiniciar {
+  display: block; /* Ocupa la línea completa como bloque*/
+  margin-left: auto; /* Distribuye espacio equivalente a la izquierda */
+  margin-right: auto; /* Distribuye espacio equivalente a la derecha */
+  margin-top: 1.5rem; /* Separación respecto al recuadro naranja */
+  padding: 0.75rem 1.5rem; 
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.25rem;
+  font-size: 1rem; /*[cite: 227] */
+  font-weight: bold;
+  cursor: pointer;
+}
+#pantalla-final[hidden] {
+    display: none;
+}
+#btn-reiniciar[hidden] {
+    display: none;
+}
+
+
