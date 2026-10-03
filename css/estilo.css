@@ -370,5 +370,26 @@ input{
 #btn-reiniciar[hidden] {
     display: none;
 }
+.btn-enlace {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  background-color: #2c3e50;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: center;
+  transition: background-color 0.2s ease;
+}
+
+.btn-enlace:hover {
+  background-color: #34495e;
+}
+/*regla para evitar que el css no deje ocultar elementos propuestos en el js* propuesta po ia*/
+[hidden] {
+  display: none !important;
+}
 
 

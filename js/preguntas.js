@@ -108,15 +108,6 @@ ingresarNombre.addEventListener("click", (e) => {
     obtenerPeliculas();
   }
 });
-// funcion de mensaje de error si la api no contesta
-//function mostrarError(mensaje) {
- // estado.textContent = mensaje;
-  //estado.className = "rojo";
- // elementoPregunta.textContent = "";
-  //opciones.innerHTML = "";
-  //resultado.textContent = "";
- // nueva.hidden = false;
-//} decidir si la conservo, esta en los ejemplos pero la ia me dice que es innecesaria
 
 // ==========================================
 // 2. Consumo de la API con async / await
@@ -332,12 +323,6 @@ const renderizarRecordsLocales = () => {
 
   records.sort((a, b) => b.puntos - a.puntos);
 
-  // Mostrar el top 5 histórico
-  records.slice(0, 5).forEach((rec, index) => {
-    const li = document.createElement("li"); //buscar en diapo
-    li.innerText = `${index + 1}. ${rec.nombre}: ${rec.puntos} puntos`;
-    listaRecords.append(li); //buscar en diapo
-  });
 };
 
 btnReiniciar.addEventListener("click", () => { 

@@ -15,6 +15,10 @@ function renderizarPuntajes() {
   const datosDados = localStorage.getItem("dados_records");
   const recordsDados = datosDados ? JSON.parse(datosDados) : [];
 
+  //3. Cargar y procesar datos de "Cinefilia"
+  const datosCinefilia = localStorage.getItem("cinefilia_records");
+  const recordsCinefilia = datosCinefilia ? JSON.parse(datosCinefilia) :
+
   // Contenedor principal de listas
   const contenedorListas = document.createElement("div");
 
@@ -72,8 +76,37 @@ function renderizarPuntajes() {
   // Insertar todas las listas construidas en el DOM
   listaPuntajes.appendChild(contenedorListas);
 
+  
   // ==========================================
-  // SECCIÓN 3: BOTÓN DE REINICIAR PUNTAJES
+  // SECCIÓN 3: PUNTAJES JUEGO DE PREGUNTAS
+  // ==========================================
+  const tituloCinefilia = document.createElement("h2");
+  tituloCinefilia.innerText = "Puntajes = Cinefilia Trivia";
+  contenedorListas.appendChild(tituloCinefilia);
+
+  if(recordsCinefilia.length === 0){
+    constpVacios = document.createElement("p");
+    pVacios.innerText = "No hay puntajes registrados aun.";
+    contenedorListas.appendChild(pVacios);
+  }
+  else{
+    recordsCinefilia.sort((a,b)) => b.puntos - a.puntos);
+
+    constolCinefilia = document.createElement("ol");
+    recordsCinefilia.slice(0,10).forEach((rec,posicion) => {
+      const li = document.createElement("li");
+      li.innerText = `${posicion + 1}. ${rec.nombre}: ${rec.puntos} puntos`;
+      olCinefilia.appendChild(li);
+});
+contenedorListas.appendChild(olCinefilia);
+  }
+  //insertar listas en el dom
+  listaPuntajes.appendChild(contenedorListas);
+
+
+
+  // ==========================================
+  // SECCIÓN 4: BOTÓN DE REINICIAR PUNTAJES
   // ==========================================
   const btnReiniciar = document.createElement("button");
   btnReiniciar.type = "button";
