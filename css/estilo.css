@@ -1,6 +1,4 @@
-la etiqueta `<ul>` y reducir los márgenes a valores más moderados:
 
-```
 * { 
   box-sizing: border-box; /*para que los bordes y el padding esten incluidos en el ancho total de la caja*/
   margin: 0; /* elimina el borde por defecto*/
@@ -122,6 +120,7 @@ a:active {
 
 /*diseño pagina de la casita*/
 
+
 /* ==========================================
    ESTRUCTURA DEL TABLERO DE JUEGO (FLEXBOX)
    ========================================== */
@@ -220,6 +219,98 @@ a:active {
 .carta:hover {
   transform: translateY(-5px);
 }
+/* Cartas de las casitas un poco más chicas */
+#contenedorCasitas .carta {
+  width: 55px;
+  height: 80px;
+  font-size: 0.8rem;
+}
+
+/* Estilo para la etiqueta superior de cada casita */
+.casita-card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.etiqueta-casita {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #333333;
+  text-align: center;
+}
+
+/* ==========================================
+   AJUSTE Y MÁRGENES DE CARTAS (MESA Y MANO)
+   ========================================== */
+
+/* Asegura que el contenedor div de cada carta tenga un tamaño fijo y margen */
+.mesa-container > div,
+.mano-container > div,
+.carta {
+  width: 100px;
+  height: 145px;
+  background-color: #ffffff;
+  border: 2px solid #333;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 6px; /* Margen para separación interna entre cartas */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  overflow: hidden; /* Evita que la imagen se salga del marco del div */
+  transition: transform 0.2s ease;
+}
+
+/* Fuerza a la imagen HTML interna a adaptarse exactamente al tamaño del contenedor div */
+.carta img,
+.mesa-container img,
+.mano-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Mantiene la proporción de la imagen dentro de la carta */
+  display: block;
+}
+/* 3. Permitir que los contenedores crezcan si hay más cartas */
+.mesa-container,
+.mano-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; /* Si no entran en una fila, se acomodan abajo sin achicarse */
+  justify-content: center;
+  align-items: center;
+  min-height: 165px; /* Espacio suficiente para albergar las cartas más grandes */
+  padding: 10px;
+}
+/* ==========================================
+   CASITAS LATERALE S (CARTAS MÁS CHICAS)
+   ========================================== */
+
+/* Cartas de la sección Casitas más pequeñas para mejor visualización */
+#contenedorCasitas .carta {
+  width: 55px;
+  height: 80px;
+  margin: 4px auto;
+}
+
+/* Estructura vertical para la Casita (Etiqueta de nombre arriba + Carta) */
+.casita-card-container {
+  display: flex;
+  flex-direction: column; /* Coloca la etiqueta arriba y la carta abajo */
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.etiqueta-casita {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #333333;
+  text-align: center;
+  margin-bottom: 4px;
+}
+
 
 /*estilos para la pagina de preguntas*/
 

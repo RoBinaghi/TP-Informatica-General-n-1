@@ -52,19 +52,24 @@ function renderizarImagenesDados(dado1, dado2) {
 // ==========================================
 jugarContraCompu.addEventListener("click", () => {
   esContraCompu = true;
-  nombreNumero.innerText = "Ingresá tu nombre:";
+  nombreNumero.innerText = "Ingresá tu nombre:"; // Se utiliza innerText para modificar el texto
+ // Oculta el paso 1 y muestra el formulario de tu nombre
   pasoModo.hidden = true;
   ingresoDatos3.hidden = false;
 });
 
+// elige jugar con más participantes
 jugarConParticipantes.addEventListener("click", () => {
   esContraCompu = false;
+  // Oculta el paso 1 y muestra el formulario de cantidad  
   pasoModo.hidden = true;
   ingresoDatos2.hidden = false;
 });
-
+// Ingresar cantidad de jugadores
 ingresarCantidad.addEventListener("click", (e) => {
   e.preventDefault();
+    // Se captura el dato ingresado en el campo .value y se convierte con Number()
+    // Se captura el dato ingresado en el campo .value y se convierte con Number()
   const cantidad = Number(numeroParticipantes.value);
 
   if (isNaN(cantidad) || cantidad < 2) {
@@ -73,6 +78,7 @@ ingresarCantidad.addEventListener("click", (e) => {
   }
 
   totalJugadores = cantidad;
+  // Oculta el paso 2 y pasa al formulario de nombres
   nombreNumero.innerText = "Nombre del participante 1:";
   ingresoDatos2.hidden = true;
   ingresoDatos3.hidden = false;
@@ -87,7 +93,8 @@ ingresarNombre.addEventListener("click", (e) => {
     return;
   }
 
-  if (esContraCompu) {
+  if (esContraCompu) {    
+    // Si juega contra la compu: agrega tu nombre, asigna "Computadora" y arranca el juego
     listaNombres = [nombre, "Computadora"];
     iniciarEstructuraPartida();
   } else {
@@ -134,7 +141,7 @@ function iniciarTurno() {
   if (esContraCompu && listaNombres[jugadorActual] === "Computadora" && !juegoTerminado) {
     tirarDados.disabled = true;
     plantarse.disabled = true;
-    setTimeout(turnoComputadora, 1000);
+    setTimeout(turnoComputadora, 1000); //tiempo de espera de 1 segundo antes de que la computadora juegue
   } else {
     tirarDados.disabled = false;
     plantarse.disabled = false;
@@ -175,7 +182,7 @@ tirarDados.addEventListener("click", () => {
   resultadosDados.innerHTML = renderizarImagenesDados(dado1, dado2) + ` (+${puntosObtenidos} pts)`;
   puntajeActual.innerText = acumuladoRonda[jugadorActual];
 
-  // Pérdida por Exceso (Bust)
+  // Pérdida por Exceso 
   if (acumuladoRonda[jugadorActual] > 21) {
     mensajeJuego.innerText = "¡Te pasaste de 21 con " + acumuladoRonda[jugadorActual] + " puntos! Sumás 0 puntos en esta ronda.";
     acumuladoRonda[jugadorActual] = 0; // Pérdida de puntos por bust
@@ -202,7 +209,7 @@ function pasaturno() {
   }
 }
 
-// IA simple para la Computadora
+// Juego automático de la Computadora según la estrategia definida (plantarse en 17 o más)
 function turnoComputadora() {
   let dado1 = 1;
   let dado2 = 1;
@@ -308,7 +315,7 @@ function guardarPuntajesLocal() {
   // Ordenar de mayor a menor según victorias acumuladas
   records.sort((a, b) => b.victorias - a.victorias);
 
-  // Guardar en localStorage convertido a string JSON[cite: 1, 2]
+  // Guardar en localStorage convertido a string JSON
   localStorage.setItem("dados_records", JSON.stringify(records));
 
 }

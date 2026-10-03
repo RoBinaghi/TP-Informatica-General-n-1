@@ -34,19 +34,13 @@ let jugadores = [];
 let mazo = [];
 let mesa = [];
 let turnoActual = 0;
+// Variables para controlar la selección de cartas y el flujo del juego. Comienza con null ya que no hay carta seleccionada ni jugador que haya robado
 let cartaSeleccionada = null;
 let ultimoEnRobar = null;
-let bloqueado = false;
+let bloqueado = false; // Variable para bloquear interacciones mientras la computadora juega
 
-const palos = ['espadas', 'bastos', 'oros', 'copas'];
-const valores = [1, 2, 3, 4, 5, 6, 7, 10, 11, 12];
-
-const equivalenciaPalos = {
-  oros: 1,
-  copas: 2,
-  espadas: 3,
-  bastos: 4
-};
+const palos = ['diamante', 'corazon', 'picas', 'trebole'];
+const valores = [1, 2, 3, 4, 5, 6, 7, 10, 11, 12,13];
 
 // ==========================================
 // Configuración e Ingreso de Datos
@@ -110,6 +104,7 @@ ingresarNombre.addEventListener("click", (e) => {
   }
 });
 
+//*Esos dos if previenen errores de ejecución en la consola de JavaScript y evitar que el script deje de funcionar.
 if (btnVolverAJugar) { // boton reniciar juego
   btnVolverAJugar.addEventListener("click", () => {
     reiniciarJuego();
@@ -137,7 +132,7 @@ function crearMazo() {
 }
 
 function prepararPartida() {
-  jugadores = listaNombres.map((n) => ({
+  jugadores = listaNombres.map((n) => ({ //Crea un objeto jugador para cada nombre en la lista de nombres, con propiedades para el nombre, la mano de cartas y la casita
     nombre: n,
     mano: [],
     casita: []
@@ -148,7 +143,10 @@ function prepararPartida() {
   ultimoEnRobar = null;
   bloqueado = false;
 
-  // Reactivar botón de tirar a la mesa si estaba desactivado
+  // Asegurar que la mesa y mano vuelvan a ser visibles
+  document.querySelector(".tablero-central").style.display = "flex";
+  document.querySelector(".mano-seccion").style.display = "block";
+
   if (tirarAMesa) tirarAMesa.disabled = false;
   if (btnVolverAJugar) btnVolverAJugar.hidden = true;
   if (btnVerPuntajes) btnVerPuntajes.hidden = true;
@@ -162,7 +160,7 @@ function repartirManos() {//reparte las cartas a los jugadores, 3 por jugador
   jugadores.forEach((jugador) => {
     for (let i = 0; i < 3; i++) {
       if (mazo.length > 0) {
-        jugador.mano.push(mazo.pop());
+        jugador.mano.push(mazo.pop()); //Le saca la carta del mazo y se la da al jugador
       }
     }
   });
@@ -171,7 +169,7 @@ function repartirManos() {//reparte las cartas a los jugadores, 3 por jugador
 function iniciarTurno() {
   cartaSeleccionada = null;
 // Si nadie tiene cartas y queda mazo, repartimos de nuevo
-  const manosVacias = jugadores.every((j) => j.mano.length === 0);
+  const manosVacias = jugadores.every((j) => j.mano.length === 0); //evalua si todos los jugadores tienen la mano vacía
   if (manosVacias) {
     if (mazo.length > 0) {
       repartirManos();
@@ -186,23 +184,23 @@ function iniciarTurno() {
   if (esContraCompu && jugadores[turnoActual].nombre === "Computadora") {
     bloqueado = true;
     mostrarMensaje("La Computadora está pensando...");
-    setTimeout(turnosCPU, 1200);
+    setTimeout(turnosCPU, 1000);
   } else {
     bloqueado = false;
   }
 }
 // Crear el elemento HTML de la carta
 function crearElementoCarta(carta, accionAlClic) {
-  if (!carta) return document.createElement("div");
+  if (!carta) return document.createElement("div"); // Retorna un div vacío si no hay carta (por ejemplo, si la mano está vacía)
 
   const div = document.createElement("div");
   div.classList.add("carta");
 
-  const img = document.createElement("img");
-  const codigoPalo = equivalenciaPalos[carta.palo];
+  const img = document.createElement("img"); // Crea un elemento de imagen para la carta
+  const codigoPalo = [carta.palo];
   img.src = "img/cartas/" + carta.numero + "." + codigoPalo + ".png";
   img.alt = carta.numero + " de " + carta.palo;
-
+// Si la imagen no se carga (por ejemplo, si no existe), muestra el número y palo de la carta en texto
   img.addEventListener("error", () => {
     div.innerText = carta.numero + "\n" + carta.palo;
   });
@@ -229,16 +227,16 @@ function actualizarPantalla() {
     mostrarMensaje("¡Selecciona una carta de tu mano para jugar!");
   }
 
-  // Renderizar Mesa
-  contenedorMesa.innerHTML = "";
+  //1° Renderizar Mesa
+  contenedorMesa.innerHTML = ""; //elimina el contenido previo de la mesa antes de renderizar las cartas actuales
   mesa.forEach((carta, posicion) => {
-    const unaCarta = crearElementoCarta(carta, () => {
+    const unaCarta = crearElementoCarta(carta, () => { //Se ejecutará únicamente cuando el usuario presione esa carta en particular
       if (!bloqueado) jugarContraMesa(posicion);
     });
     contenedorMesa.appendChild(unaCarta);
   });
 
-  // Renderizar Mano
+  //2° Renderizar Mano del Jugador Actual
   contenedorMano.innerHTML = "";
   jugador.mano.forEach((carta, posicion) => {
     const unaCarta = crearElementoCarta(carta, () => {
@@ -255,31 +253,36 @@ function actualizarPantalla() {
     contenedorMano.appendChild(unaCarta);
   });
 
-  // Renderizar Casitas
+  // 3° Renderizar Casitas con Nombre Superior
   contenedorCasitas.innerHTML = "";
   jugadores.forEach((j, posicion) => {
     if (j.casita.length > 0) {
       const tope = j.casita[j.casita.length - 1];
 
+      // Contenedor individual por casita
+      const divCasitaIndividual = document.createElement("div");
+      divCasitaIndividual.classList.add("casita-card-container");
+
+      // Etiqueta superior con el nombre del dueño
+      const etiqueta = document.createElement("p");
+      etiqueta.classList.add("etiqueta-casita");
+
       if (posicion === turnoActual) {
-        const divMiCasita = document.createElement("div");
-        divMiCasita.innerHTML = `<p>Tu Casita (${j.casita.length} cartas):</p>`;
-        divMiCasita.appendChild(crearElementoCarta(tope));
-        contenedorCasitas.appendChild(divMiCasita);
+        etiqueta.innerText = "Tu Casita (" + j.casita.length + ")";
+        const elementoCarta = crearElementoCarta(tope);
+        divCasitaIndividual.appendChild(etiqueta);
+        divCasitaIndividual.appendChild(elementoCarta);
       } else {
-        const divRival = document.createElement("div");
-        const btnRobar = document.createElement("button");
-        btnRobar.type = "button";
-        btnRobar.innerText = `Robar a ${j.nombre} (Tope: ${tope.numero})`;
-        
-        btnRobar.addEventListener("click", () => {
+        etiqueta.innerText = "Casita de " + j.nombre + " (" + j.casita.length + ")";
+        // La carta del rival es cliqueable directamente para robar
+        const elementoCarta = crearElementoCarta(tope, () => {
           if (!bloqueado) robarCasita(posicion);
         });
-
-        divRival.appendChild(btnRobar);
-        divRival.appendChild(crearElementoCarta(tope));
-        contenedorCasitas.appendChild(divRival);
+        divCasitaIndividual.appendChild(etiqueta);
+        divCasitaIndividual.appendChild(elementoCarta);
       }
+
+      contenedorCasitas.appendChild(divCasitaIndividual);
     }
   });
 }
@@ -306,19 +309,22 @@ function jugarContraMesa(posicionMesa) {// Función para jugar una carta contra 
   }
 }
 
-function robarCasita(posicionRival) {
+function robarCasita(posicionRival) { //se encarga de verificar y transferir todas las cartas acumuladas en la casita de un contrincante hacia la casita del jugador 
+ 
+ // 1° Validar que el usuario haya seleccionado primero una carta de su mano
   if (cartaSeleccionada === null) {
     mostrarMensaje("Primero elegí una carta de tu mano.");
     return;
   }
-
+//  2° Obtener referencias al jugador activo, al rival y a las cartas en juego
   const jugador = jugadores[turnoActual];
   const rival = jugadores[posicionRival];
   const cartaMano = jugador.mano[cartaSeleccionada];
   const topeCasitaRival = rival.casita[rival.casita.length - 1];
 
+  // 3° Evaluar si coinciden los números de las cartas
   if (cartaMano.numero === topeCasitaRival.numero) {
-    jugador.casita.push(...rival.casita, cartaMano);
+    jugador.casita.push(...rival.casita, cartaMano); // 4° Transferir todas las cartas de la casita del rival y la carta de la mano del jugador a la casita del jugador activo
     rival.casita = [];
     jugador.mano.splice(cartaSeleccionada, 1);
     ultimoEnRobar = turnoActual;
@@ -329,6 +335,7 @@ function robarCasita(posicionRival) {
   }
 }
 
+//Evento para el botón de tirar carta a la mesa
 if (tirarAMesa) {
   tirarAMesa.addEventListener("click", () => {
     if (bloqueado) return;
@@ -349,7 +356,7 @@ function pasarturno() {
   iniciarTurno();
 }
 
-function turnosCPU() {
+function turnosCPU() { //juagadas que realiza la computadora de manera automática, evaluando si puede robar casitas o cartas de la mesa, y si no puede, descarta la primera carta de su mano a la mesa
   const cpu = jugadores[turnoActual];
 
   if (!cpu.mano || cpu.mano.length === 0) {
@@ -415,15 +422,17 @@ function evaluarGanador() {
   mensaje += `\n¡El ganador es ${ganador}!`;
   mostrarMensaje(mensaje);
 
-  // 3. Desactivar el botón de tirar carta
+// Ocultar tablero central y la mano para que solo queden los puntajes y los botones
+  document.querySelector(".tablero-central").style.display = "none";
+  document.querySelector(".mano-seccion").style.display = "none";
+
   if (tirarAMesa) {
     tirarAMesa.disabled = true;
   }
 
-  //  Guardar puntajes en localStorage
+  // Guardar puntajes en localStorage y mostrar botones finales
   guardarPuntajesLocal();
 
-  // Mostrar los botones de "Volver a jugar" y "Ver tabla de puntajes"
   if (btnVolverAJugar) btnVolverAJugar.hidden = false;
   if (btnVerPuntajes) btnVerPuntajes.hidden = false;
 }
