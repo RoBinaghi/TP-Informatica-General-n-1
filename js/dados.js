@@ -1,4 +1,6 @@
-// Selección de elementos de la interfaz para manipular visibilidad y contenido
+// ==========================================
+// SELECCIÓN DE ELEMENTOS DEL DOM
+// ==========================================
 const pasoModo = document.querySelector("#pasoModo");
 const ingresoDatos2 = document.querySelector("#ingresoDatos2");
 const ingresoDatos3 = document.querySelector("#ingresoDatos3");
@@ -10,46 +12,59 @@ const numeroParticipantes = document.querySelector("#cantidadParticipantes");
 const nombreJugador = document.querySelector("#nombreJugador");
 const nombreNumero = document.querySelector("#nombreNumero");
 
-//TODAS LAS VARIABLES DEL JUEGO VAN AQUI  
+const tirarDados = document.querySelector("#tirarDados");
+const plantarse = document.querySelector("#plantarse");
+const pasoJuego = document.querySelector("#pasoJuego"); 
+const turnoJugador = document.querySelector("#turnoJugador");
+const resultadosDados = document.querySelector("#resultadosDados");
+const puntajeActual = document.querySelector("#puntajeActual");
+const mensajeJuego = document.querySelector("#mensajeJuego"); 
+const historialRondas = document.querySelector("#historialRondas"); 
+const jugarDeNuevo = document.querySelector("#jugarDeNuevo"); 
+const desempatar = document.querySelector("#desempatar");
+
+// ==========================================
+// VARIABLES GLOBALES DE ESTADO
+// ==========================================
 let esContraCompu = false;
 let totalJugadores = 1;
 let listaNombres = []; 
 let jugadorActual = 0;
-let puntajes = []; 
+
+// Estado del juego
+let acumuladoRonda = []; // Guardará los puntos acumulados por jugador en la ronda actual
+let victoriasGlobales = []; // Guardará las victorias acumuladas por jugador en la partida
 let juegoTerminado = false; 
 let ronda = 1; 
-let resultadosRondas = []; 
-let huboDesempate = false;
 
 // ==========================================
-// Validar y capturar la elección de jugar contra la computadora o con más participantes
+// FUNCIÓN AUXILIAR: GENERAR HTML DE DADOS (IMG)
 // ==========================================
+function renderizarImagenesDados(dado1, dado2) {
+  return `
+    <img src="img/dados/${dado1}.png" alt="Dado ${dado1}" width="50" style="margin-right: 5px; vertical-align: middle;">
+    <img src="img/dados/${dado2}.png" alt="Dado ${dado2}" width="50" style="vertical-align: middle;">
+  `;
+}
 
-
-// Elige contra la computadora
+// ==========================================
+// REGISTRO DE PARTICIPANTES Y MODALIDAD
+// ==========================================
 jugarContraCompu.addEventListener("click", () => {
   esContraCompu = true;
-  nombreNumero.innerText = "Ingresá tu nombre:"; // Se utiliza innerText para modificar el texto
-
-  // Oculta el paso 1 y muestra el formulario de tu nombre
+  nombreNumero.innerText = "Ingresá tu nombre:";
   pasoModo.hidden = true;
   ingresoDatos3.hidden = false;
 });
 
-// elige jugar con más participantes
 jugarConParticipantes.addEventListener("click", () => {
   esContraCompu = false;
-
-  // Oculta el paso 1 y muestra el formulario de cantidad
   pasoModo.hidden = true;
   ingresoDatos2.hidden = false;
 });
 
-// Ingresar cantidad de jugadores
 ingresarCantidad.addEventListener("click", (e) => {
   e.preventDefault();
-  
-  // Se captura el dato ingresado en el campo .value y se convierte con Number()
   const cantidad = Number(numeroParticipantes.value);
 
   if (isNaN(cantidad) || cantidad < 2) {
@@ -58,14 +73,11 @@ ingresarCantidad.addEventListener("click", (e) => {
   }
 
   totalJugadores = cantidad;
- nombreNumero.innerText = "Nombre del participante 1:";
-
-  // Oculta el paso 2 y pasa al formulario de nombres
+  nombreNumero.innerText = "Nombre del participante 1:";
   ingresoDatos2.hidden = true;
   ingresoDatos3.hidden = false;
 });
 
-// Ingresar nombre/nombres de los participantes
 ingresarNombre.addEventListener("click", (e) => {
   e.preventDefault();
   const nombre = nombreJugador.value.trim();
@@ -76,236 +88,227 @@ ingresarNombre.addEventListener("click", (e) => {
   }
 
   if (esContraCompu) {
-    // Si juega contra la compu: agrega tu nombre, asigna "Computadora" y arranca el juego
     listaNombres = [nombre, "Computadora"];
-
-    ingresoDatos3.hidden = true;
-    pasoJuego.hidden = false;
-    jugadorActual = 0;   //PARA INDICAR QUE JUGADOR ESTA JUGANDO
-    puntajes = []; //MUESTRA LA SUMA ACUMULADA DE LOS DADOS
-
-    for (let i = 0; i < listaNombres.length; i++) {
-        puntajes.push(0);
-    }
-    iniciarTurno();
-
-    console.log("Jugadores registrados:", listaNombres);
-
+    iniciarEstructuraPartida();
   } else {
-    // Si juegan varios: va guardando de a uno hasta completar la cantidad
     listaNombres.push(nombre);
-    nombreJugador.value = ""; // Limpia el input
+    nombreJugador.value = "";
 
     if (listaNombres.length < totalJugadores) {
-      nombreNumero.innerText = `Nombre del participante ${listaNombres.length + 1}:`;
+      nombreNumero.innerText = "Nombre del participante " + (listaNombres.length + 1) + ":";
     } else {
-      // Se cargaron todos los nombres, arranca el juego de dados
-      ingresoDatos3.hidden = true;
-      pasoJuego.hidden = false;
-      
-      jugadorActual = 0; //indica quien esta jugando
-      puntajes = [];  //MUESTRA LA SUMA ACUMULADA DE LOS DADOS
-      
-      for (let i = 0; i < listaNombres.length; i++) {
-         puntajes.push(0);
-      }
-      iniciarTurno();
-
-      console.log("Jugadores registrados:", listaNombres);
+      iniciarEstructuraPartida();
     }
   }
 });
 
-// ==========================================
-// Inicio del juego de dados
-// ==========================================
-//buscar botones 
-const tirarDados = document.querySelector("#tirarDados");
-const plantarse = document.querySelector("#plantarse");
-const pasoJuego = document.querySelector("#pasoJuego"); 
-const turnoJugador = document.querySelector("#turnoJugador");
-const resultadosDados =document.querySelector("#resultadosDados");
-const puntajeActual = document.querySelector("#puntajeActual");
-const mensajeJuego = document.querySelector("#mensajeJuego"); 
-const historialRondas = document.querySelector("#historialRondas"); 
-const jugarDeNuevo = document.querySelector("#jugarDeNuevo"); 
-const desempatar = document.querySelector("#desempatar");
+function iniciarEstructuraPartida() {
+  ingresoDatos3.hidden = true;
+  pasoJuego.hidden = false;
+  
+  // Se inicializan los acumuladores de victorias para cada participante
+  victoriasGlobales = [];
+  acumuladoRonda = [];
+  
+  for (let i = 0; i < listaNombres.length; i++) {
+    victoriasGlobales.push(0);
+    acumuladoRonda.push(0);
+  }
 
-//INICIO DEL TURNO 
-function iniciarTurno() {
-    turnoJugador.innerText = "Ronda: " + ronda + "-Turno de:" + listaNombres[jugadorActual];
-    puntajeActual.innerText = "0";
-    resultadosDados.innerText = "-";
-} 
-function turnoComputadora() { 
-  //SI TIENE MENOS DE 17, SIGUE TIRANDO
-  while (puntajes[jugadorActual] < 17) {
-    const dado1 = Math.floor(Math.random() * 6) + 1;
-    const dado2 = Math.floor(Math.random() * 6) + 1;
-
-    const suma = dado1 + dado2;
-
-    resultadosDados.innerText = dado1 + " + " + dado2 + " = " + suma;
-    puntajes[jugadorActual] = puntajes[jugadorActual] + suma;
-    puntajeActual.innerText = puntajes[jugadorActual]; 
-  } 
-  //PERO SI SE PASA DE 21, DEJA DE TIRAR 
-  if (puntajes[jugadorActual] > 21) {
-     mensajeJuego.innerText = "La computadora se pasó de 21 con " +
-            puntajes[jugadorActual] + " puntos.";
-    } else if (puntajes[jugadorActual] === 21) {
-        mensajeJuego.innerText = "¡La computadora llegó a 21!";
-    } else {
-        mensajeJuego.innerText = "La computadora se plantó con " +
-            puntajes[jugadorActual] + " puntos.";
-  } 
-}
-//COMPARA PTS PARA DEFINIR EL FINAL DEL JUEGO, VER QUIEN GANO O SI HUBO EMPATE
-function compararResultados(puntajeJugador) { 
-  juegoTerminado = true;
-
-    const puntajeComputadora = puntajes[1];
-   //ESTE ES PARA CUANDO EL USUARIO SE PASO DE 21
-    if (puntajeJugador > 21) {
-        mensajeJuego.innerText =
-            "Te pasaste de 21. ¡Ganó la computadora!";
-    } 
-      //ESTE PARA CUANDO LA COMPU SE PASA DE 21
-     else if (puntajeComputadora > 21) {
-        mensajeJuego.innerText =
-            "La computadora se pasó de 21. ¡Ganaste!";
-    } 
-      //CASO QUE AMBOS TENGAN PUNTOS IGUALES.
-     else if (puntajeJugador === puntajeComputadora) { 
-      huboDesempate = true; 
-        mensajeJuego.innerText =
-            "¡Empate! Los dos tienen " + puntajeJugador + " puntos.";
-       desempatar.hidden = false;  
-       resultadosRondas.push( 
-        "Ronda " + ronda + ": " + puntajeJugador + " - " + puntajeComputadora
-      ); 
-      historialRondas.innerText = resultadosRondas.join("\n"); 
-    } 
-     //CASO QUE EL USUARIO GANE. SE DEFINE SI SE PLANTO EN UN N° MENOR A 21 PERO QUE ESTE ACERCA. 
-     else if (puntajeJugador > puntajeComputadora) {
-        mensajeJuego.innerText =
-            "¡Ganaste! Vos: " + puntajeJugador + "puntos.";
-    } 
-     //CASO GANE LA COMPU. SE DEFINE CON QUIEN TENGA UN N° MENOR A 21 PERO QUE ESTE CERCA
-     else {
-        mensajeJuego.innerText =
-            "Ganó la computadora. Tiene: " + puntajeComputadora + "puntos.";
-    }  
-     //CASO AMBOS SE PASEN DE 21 PUNTOS.
-    if (puntajeJugador > 21 && puntajeComputadora > 21 ) {
-       const distanciaJugador = puntajeJugador - 21;
-       const distanciaComputadora = puntajeComputadora - 21; 
-       
-       if (distanciaJugador < distanciaComputadora) {
-         mensajeJuego.innerText =
-       "Ambos se pasaron de 21, pero ganaste vos: " +
-       "Vos: " + puntajeJugador + 
-       " - Computadora: " + puntajeComputadora; 
-        } 
-        else if (distanciaComputadora < distanciaJugador) {
-           mensajeJuego.innerText =
-                "Los dos se pasaron de 21, pero ganó la computadora. " +
-                "Vos: " + puntajeJugador + 
-                " - Computadora: " + puntajeComputadora;
-        } 
-        else {
-            huboDesempate = true;
-
-            mensajeJuego.innerText =
-                "¡Empate! Los dos se pasaron por la misma cantidad.";
-
-            desempatar.hidden = false;
-            resultadosRondas.push(
-                "Ronda " + ronda + ": " + puntajeJugador + 
-                " - " + puntajeComputadora
-            );
-              historialRondas.innerText = resultadosRondas.join("\n");
-         }
-    } 
-     // GUARDA LAS RONDAS DE DESEMPATE QUE TERMINARON CON UN GANADOR
-    if (ronda > 1 && puntajeJugador !== puntajeComputadora) {  
-        resultadosRondas.push( 
-            "Ronda " + ronda + ": " + puntajeJugador + " - " + puntajeComputadora
-        ); 
-
-        historialRondas.innerText = resultadosRondas.join("\n");  
-    }
-    // MUESTRA "JUGAR DE NUEVO" SOLO SI NO HUBO EMPATE
-    if (puntajeJugador !== puntajeComputadora) {
-        jugarDeNuevo.hidden = false;
-    }
-}
-//BOTON JUGAR DE NUEVO, PARA VOLVER A JUGAR 
-jugarDeNuevo.addEventListener("click", () => {
-    puntajes = [0, 0];
-    jugadorActual = 0;
-    juegoTerminado = false; 
-
-    ronda = 1; 
-    resultadosRondas = [];
-    huboDesempate = false; 
-
-    resultadosDados.innerText = "-";
-    puntajeActual.innerText = "0";
-    mensajeJuego.innerText = "";
-    historialRondas.innerText = ""; 
-
-    jugarDeNuevo.hidden = true; 
-    desempatar.hidden = true; 
-    iniciarTurno(); 
-}); 
-//BOTON DESEMPATE, SOLO APARECEE EN EMPATES
-desempatar.addEventListener("click", () => {
-  ronda++; 
-  puntajes = [0, 0];
   jugadorActual = 0;
-  juegoTerminado = false; 
+  ronda = 1;
+  juegoTerminado = false;
 
-  resultadosDados.innerHTML = "-";
-  puntajeActual.innerHTML = "0";
-  mensajeJuego.innerHTML = "";
-
-  desempatar.hidden = true;
   iniciarTurno();
+}
+
+// ==========================================
+// DINÁMICA DEL TURNO Y REGLAS DE PUNTUACIÓN
+// ==========================================
+function iniciarTurno() {
+  turnoJugador.innerText = "Ronda " + ronda + " - Turno de: " + listaNombres[jugadorActual];
+  puntajeActual.innerText = acumuladoRonda[jugadorActual];
+  resultadosDados.innerText = "-";
+
+  // Si le toca a la Computadora, ejecuta su turno de forma automática
+  if (esContraCompu && listaNombres[jugadorActual] === "Computadora" && !juegoTerminado) {
+    tirarDados.disabled = true;
+    plantarse.disabled = true;
+    setTimeout(turnoComputadora, 1000);
+  } else {
+    tirarDados.disabled = false;
+    plantarse.disabled = false;
+  }
+}
+
+// Cálculo de puntuación según las reglas del juego
+function calcularPuntosTiro(dado1, dado2, puntajePrevio) {
+  // Regla Doble As (1 y 1)
+  if (dado1 === 1 && dado2 === 1) {
+    if (puntajePrevio + 14 <= 21) {
+      return 14;
+    } else {
+      return 2;
+    }
+  }
+  
+  // Regla Pares Iguales (2 y 2, 3 y 3, etc.)
+  if (dado1 === dado2) {
+    return (dado1 + dado2) * 2;
+  }
+
+  // Suma estándar
+  return dado1 + dado2;
+}
+
+// Botón "Tirar dados"
+tirarDados.addEventListener("click", () => {
+  if (juegoTerminado) return;
+
+  const dado1 = Math.floor(Math.random() * 6) + 1;
+  const dado2 = Math.floor(Math.random() * 6) + 1;
+
+  const puntosObtenidos = calcularPuntosTiro(dado1, dado2, acumuladoRonda[jugadorActual]);
+  acumuladoRonda[jugadorActual] += puntosObtenidos;
+
+  // Se renderizan las imágenes de los dados junto con los puntos obtenidos
+  resultadosDados.innerHTML = renderizarImagenesDados(dado1, dado2) + ` (+${puntosObtenidos} pts)`;
+  puntajeActual.innerText = acumuladoRonda[jugadorActual];
+
+  // Pérdida por Exceso (Bust)
+  if (acumuladoRonda[jugadorActual] > 21) {
+    mensajeJuego.innerText = "¡Te pasaste de 21 con " + acumuladoRonda[jugadorActual] + " puntos! Sumás 0 puntos en esta ronda.";
+    acumuladoRonda[jugadorActual] = 0; // Pérdida de puntos por bust
+    pasaturno();
+  }
 });
 
-//BOTON TIRAR DADOS 
-tirarDados.addEventListener("click", () => { 
-  if (juegoTerminado) {
-    return;  //deactiva la funcion del boton luego de mostrar el ganador.
-  }
-    if (jugadorActual === 1) {
-      return;
-    } 
-    const dado1 = Math.floor(Math.random() * 6) + 1;  //estos generan dos numeros al azar entre 1 y 6
-    const dado2 = Math.floor(Math.random() * 6) + 1;
+// Botón "Plantarse"
+plantarse.addEventListener("click", () => {
+  if (juegoTerminado) return;
 
-    const suma = dado1 + dado2;
+  mensajeJuego.innerText = listaNombres[jugadorActual] + " se plantó con " + acumuladoRonda[jugadorActual] + " puntos.";
+  pasaturno();
+});
 
-    resultadosDados.innerText = dado1 + " + " + dado2 + " = " + suma;
-    puntajes[jugadorActual] = puntajes[jugadorActual] + suma;
-    puntajeActual.innerText = puntajes[jugadorActual];
-}); 
+function pasaturno() {
+  jugadorActual++;
 
-//BOTON PLANTARSE- PARA TERMINAR EL TURNO Y PASAR AL SIGUIENTE JUGADOR
-plantarse.addEventListener("click", () => { 
-  if (juegoTerminado) {
-    return;  //desactiva la funcion del boton luego de mostrar el ganador.
-  } 
-  const puntajeJugador = puntajes[jugadorActual];
-
-    mensajeJuego.innerText = listaNombres[jugadorActual] +
-        " se plantó con " + puntajes[jugadorActual] + " puntos.";
-    jugadorActual++; 
-
+  // Si ya jugaron todos los participantes, se evalúa la ronda
+  if (jugadorActual >= listaNombres.length) {
+    evaluarFinDeRonda();
+  } else {
     iniciarTurno();
-    
-    turnoComputadora(); 
-    compararResultados(puntajeJugador);
-}); 
+  }
+}
 
+// IA simple para la Computadora
+function turnoComputadora() {
+  let dado1 = 1;
+  let dado2 = 1;
+
+  while (acumuladoRonda[jugadorActual] < 17) {
+    dado1 = Math.floor(Math.random() * 6) + 1;
+    dado2 = Math.floor(Math.random() * 6) + 1;
+    const puntos = calcularPuntosTiro(dado1, dado2, acumuladoRonda[jugadorActual]);
+    
+    acumuladoRonda[jugadorActual] += puntos;
+  }
+
+  // Muestra las imágenes del último tiro realizado por la Computadora
+  resultadosDados.innerHTML = renderizarImagenesDados(dado1, dado2);
+
+  if (acumuladoRonda[jugadorActual] > 21) {
+    acumuladoRonda[jugadorActual] = 0;
+  }
+
+  pasaturno();
+}
+
+// ==========================================
+// EVALUACIÓN DE RONDAS Y PERSISTENCIA DE PUNTAJES
+// ==========================================
+function evaluarFinDeRonda() {
+  let mayorPuntaje = 0;
+
+  // Buscar la puntuación válida más alta de la ronda
+  for (let i = 0; i < acumuladoRonda.length; i++) {
+    if (acumuladoRonda[i] <= 21 && acumuladoRonda[i] > mayorPuntaje) {
+      mayorPuntaje = acumuladoRonda[i];
+    }
+  }
+
+  let mensajeRonda = "Fin de la Ronda " + ronda + ". ";
+
+  if (mayorPuntaje === 0) {
+    mensajeRonda += "Todos los participantes se pasaron de 21. Nadie suma victorias.";
+  } else {
+    // Otorgar victoria a quienes alcanzaron la puntuación máxima válida
+    for (let i = 0; i < acumuladoRonda.length; i++) {
+      if (acumuladoRonda[i] === mayorPuntaje) {
+        victoriasGlobales[i]++;
+        mensajeRonda += "¡" + listaNombres[i] + " gana la ronda! ";
+      }
+    }
+  }
+
+  mensajeJuego.innerText = mensajeRonda;
+
+  // Actualizar historial visual de rondas
+  let textoHistorial = "Marcador de Victorias:\n";
+  for (let i = 0; i < listaNombres.length; i++) {
+    textoHistorial += listaNombres[i] + ": " + victoriasGlobales[i] + " victoria(s)\n";
+  }
+  historialRondas.innerText = textoHistorial;
+
+  // Verificar si alguien alcanzó 3 victorias (Fin de la partida)
+  let ganadorPartida = null;
+  for (let i = 0; i < victoriasGlobales.length; i++) {
+    if (victoriasGlobales[i] >= 3) {
+      ganadorPartida = listaNombres[i];
+      break;
+    }
+  }
+
+  if (ganadorPartida !== null) {
+    juegoTerminado = true;
+    mensajeJuego.innerText = "¡PARTIDA FINALIZADA! " + ganadorPartida + " se corona como ganador definitivo.";
+    
+    // Ocultar botones de acción
+    tirarDados.hidden = true;
+    plantarse.hidden = true;
+    
+    // Guardar puntajes en Web Storage y redirigir
+    guardarPuntajesLocal();
+  } else {
+    // Preparar siguiente ronda
+    ronda++;
+    jugadorActual = 0;
+    for (let i = 0; i < acumuladoRonda.length; i++) {
+      acumuladoRonda[i] = 0;
+    }
+    iniciarTurno();
+  }
+}
+
+// Guardar los resultados en localStorage
+function guardarPuntajesLocal() {
+  const datosPrevios = localStorage.getItem("dados_records");
+  const records = datosPrevios ? JSON.parse(datosPrevios) : [];
+
+  // Guardar el nombre de cada jugador y sus victorias globales obtenidas
+  for (let i = 0; i < listaNombres.length; i++) {
+    records.push({
+      nombre: listaNombres[i],
+      victorias: victoriasGlobales[i],
+      juego: "21 con Dados"
+    });
+  }
+
+  // Ordenar de mayor a menor según victorias acumuladas
+  records.sort((a, b) => b.victorias - a.victorias);
+
+  // Guardar en localStorage convertido a string JSON[cite: 1, 2]
+  localStorage.setItem("dados_records", JSON.stringify(records));
+
+}
