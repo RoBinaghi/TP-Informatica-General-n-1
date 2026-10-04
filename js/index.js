@@ -6,7 +6,7 @@ const imagenesJuegos = [
     {
         normal:'img/cinefilia1.jpg',
         hover:'img/cinefilia2.jpg',
-    },
+    }, 
     {
         normal:'img/casitarobada1.jpg',
         hover:'img/casitarobada2.jpg',

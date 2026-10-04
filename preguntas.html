@@ -21,14 +21,40 @@
     </ul>    
  </nav>
  </header>
- <main>
+ <main class="mainconteiner">
    <h1>Juego de preguntas</h1>
     <h2>Cinefilia: Duelo de Películas</h2>
-      <div id="marcador" class="marcador" hidden>
-        <p>Turno: <span id="texto-turno-jugador">-</span></p>
-        <p>Ronda: <span id="texto-ronda">1</span> / 5</p>
-        <p>Puntos de la ronda: <span id="texto-puntos">0</span></p>
-      </div>
+    <!--Instrucciones del juego -->
+  <article>
+
+    <h2> Objetivo del Juego</h2>
+    <p>Acumular la mayor cantidad de puntos posibles sin superar el límite de 21 en cada ronda. El primer usuario en ganar 3 rondas se corona como el ganador definitivo de la partida.</p>
+
+    <h2> Lanzamiento y Puntuación</h2>
+    <p>En cada tiro se lanzan 2 dados de 6 caras y el resultado modifica el puntaje acumulado:</p>
+    <ul>
+      <li><strong>Suma Estándar:</strong> El puntaje obtenido es la suma simple de ambos dados (Dado 1 + Dado 2).</li>
+      <li><strong>Doble As (1 y 1):</strong> Otorga la opción de sumar 2 o 14 puntos (según le convenga al usuario para no pasarse).</li>
+      <li><strong>Pares Iguales (2 y 2, 3 y 3, etc.):</strong> Duplican la suma obtenida en esa tirada (por ejemplo, un doble 4 suma 16 puntos en lugar de 8).</li>
+    </ul>
+
+    <h2> Mecánica del Turno</h2>
+    <p>El usuario inicia su turno eligiendo entre <strong>Tirar</strong> o <strong>Plantarse</strong>:</p>
+    <ul>
+      <li>Puede lanzar los dados cuantas veces desee mientras el total de la ronda no supere los 21 puntos.</li>
+      <li><strong>Pérdida por Exceso (Bust):</strong> Si el acumulado supera los 21 puntos en cualquier tiro, el usuario suma 0 puntos en esa ronda y su turno termina automáticamente.</li>
+      <li><strong>Plantarse:</strong> Al presionar este botón, el usuario congela su puntaje actual y cede el turno al siguiente participante.</li>
+    </ul>
+
+    <h2> Sistema de Puntuación y Rondas</h2>
+    <ul>
+      <li><strong>Puntos por Ronda:</strong> Al finalizar los turnos de todos los participantes, se comparan las puntuaciones finales válidas.</li>
+      <li><strong>Ganador de Ronda:</strong> El usuario con la puntuación válida más alta (más cercana a 21) recibe 1 Victoria en el marcador global.</li>
+      <li><strong>Empate:</strong> Si dos o más usuarios se plantan con la misma puntuación máxima, todos reciben 1 Victoria en esa ronda.</li>
+      <li><strong>Fin de la Partida:</strong> La partida termina inmediatamente cuando un usuario alcanza un total de 3 Victorias.</li>
+    </ul>
+
+  </article>
  <!-- Paso 1: Ingresar cantidad de participantes -->
     <form id="ingresoDatos2">
       <label for="cantidadParticipantes">¿Cuántos participantes son?</label><br>
@@ -51,6 +77,13 @@
       <p id="indicador-tiempo">Tiempo restante para puntaje máximo: <span id="segundos">15</span>s</p>
       <div id="contenedor-opciones" class="grilla-opciones"></div>
     </section>
+
+    <!-- indicadores cuando comienza el juego-->
+      <div id="marcador" class="marcador" hidden>
+        <p>Turno: <span id="texto-turno-jugador">-</span></p>
+        <p>Ronda: <span id="texto-ronda">1</span> / 5</p>
+        <p>Puntos de la ronda: <span id="texto-puntos">0</span></p>
+      </div>
 
     <!-- Paso 4: Resultados finales y récords locales-->
     <section id="pantalla-final" hidden>

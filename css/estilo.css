@@ -119,7 +119,7 @@ nav ul {
   justify-content: center;   /* Centra los botones dentro de la barra */
   flex-wrap: wrap;           /* Si la pantalla es chica, los acomoda abajo sin romperse */
   gap: 10px;                 /* Espacio uniforme entre cada opción */
-  background-color: #C4E0FF; /* Color de fondo general del menú */
+  background-color: #bcdafd; /* Color de fondo general del menú */
   padding: 10px;
   border-radius: 5px;
 }
@@ -144,6 +144,13 @@ a:hover {
 a:active {
   color: rgb(100, 2, 87);
   background-color: rgb(241, 201, 236);
+}
+header, footer{
+  text-align: center;
+  color: #000;
+  margin-bottom: 1rem;
+  background-color: #C4E0FF;
+
 }
 
 
@@ -242,7 +249,7 @@ a:active {
   transition: transform 0.2s ease;
 }
 
-//Idea de la IA le da movimientos a la cartas y a la mesa, para que se vea más dinámico y no tan estático.
+/*Idea de la IA le da movimientos a la cartas y a la mesa, para que se vea más dinámico y no tan estático.*/
 .mesa-container > div:hover,
 .mano-container > div:hover,
 .carta:hover {
@@ -276,7 +283,7 @@ a:active {
 
 /* Asegura que el contenedor div de cada carta tenga un tamaño fijo y margen */
 .mesa-container > div,
-.mano-container > div,
+.mano-er > div,
 .carta {
   width: 100px;
   height: 145px;
@@ -311,7 +318,7 @@ a:active {
   justify-content: center;
   align-items: center;
   min-height: 165px; /* Espacio suficiente para albergar las cartas más grandes */
-  padding: 10px;
+  pacontaindding: 10px;
 }
 /* ==========================================
    CASITAS LATERALE S (CARTAS MÁS CHICAS)
@@ -343,10 +350,7 @@ a:active {
 
 /*estilos para la pagina de preguntas*/
 
-header, footer{
-  text-align: center;
-  margin-bottom: 1rem;
-}
+
 
 header h1{
   font-size: 1.6rem;
