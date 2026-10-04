@@ -24,7 +24,13 @@ const mensajeJuegoEl = document.querySelector("#mensajeJuego");
 const contenedorMesa = document.querySelector("#mesa");
 const contenedorCasitas = document.querySelector("#contenedorCasitas");
 const contenedorMano = document.querySelector("#mano");
-
+// ==========================================
+// SELECCIÓN DE ELEMENTOS (INSTRUCCIONES Y BOTONES)
+// ==========================================
+const seccionInstrucciones = document.querySelector("#seccionInstrucciones");
+const contenedorIniciar = document.querySelector("#contenedorIniciar");
+const btnIniciarPartida = document.querySelector("#btnIniciarPartida");
+const btnVerInstrucciones = document.querySelector("#btnVerInstrucciones");
 // Estado de si juega con la compu o con alguien. Tambien toma datos del juador/es
 let esContraCompu = false; 
 let totalJugadores = 1;
@@ -41,6 +47,28 @@ let bloqueado = false; // Variable para bloquear interacciones mientras la compu
 
 const palos = ['diamante', 'corazon', 'picas', 'trebole'];
 const valores = [1, 2, 3, 4, 5, 6, 7, 10, 11, 12,13];
+
+// ==========================================
+// CONTROL DE VISIBILIDAD DE INSTRUCCIONES
+// ==========================================
+
+// 1. Al pulsar "Iniciar Partida", se ocultan instrucciones y pasa al paso de selección
+if (btnIniciarPartida) {
+  btnIniciarPartida.addEventListener("click", () => {
+    if (seccionInstrucciones) seccionInstrucciones.hidden = true;
+    if (contenedorIniciar) contenedorIniciar.hidden = true;
+    if (btnVerInstrucciones) btnVerInstrucciones.hidden = false;
+
+    pasoModo.hidden = false;
+  });
+}
+
+// 2. Botón para alternar/releer la visibilidad de las instrucciones
+if (btnVerInstrucciones) {
+  btnVerInstrucciones.addEventListener("click", () => {
+    seccionInstrucciones.hidden = !seccionInstrucciones.hidden;
+  });
+}
 
 // ==========================================
 // Configuración e Ingreso de Datos
@@ -132,6 +160,10 @@ function crearMazo() {
 }
 
 function prepararPartida() {
+  // Asegura ocultar completamente la sección de instrucciones al entrar al juego activo
+  if (seccionInstrucciones) seccionInstrucciones.hidden = true;
+  if (contenedorIniciar) contenedorIniciar.hidden = true;
+
   jugadores = listaNombres.map((n) => ({ //Crea un objeto jugador para cada nombre en la lista de nombres, con propiedades para el nombre, la mano de cartas y la casita
     nombre: n,
     mano: [],
@@ -148,7 +180,7 @@ function prepararPartida() {
   document.querySelector(".mano-seccion").style.display = "block";
 
   if (tirarAMesa) tirarAMesa.disabled = false;
-  if (btnVolverAJugar) btnVolverAJugar.hidden = true;
+  if (btnVolverAJugar) btnVolverAJugar.hidden =false; // Mantener visible siempre en partida
   if (btnVerPuntajes) btnVerPuntajes.hidden = true;
 
   repartirManos();
@@ -453,18 +485,21 @@ function guardarPuntajesLocal() {
 }
 
 function reiniciarJuego() {
-  // Oculta el contenedor del juego y vuelve a mostrar el menú de selección inicial
-  pasoJuego.hidden = true;
-  if (btnVolverAJugar) btnVolverAJugar.hidden = true;
-  if (btnVerPuntajes) btnVerPuntajes.hidden = true;
+  if (confirm("¿Estás seguro de que querés reiniciar la partida?")) {
+    pasoJuego.hidden = true;
+    pasoModo.hidden = true;
+    ingresoDatos2.hidden = true;
+    ingresoDatos3.hidden = true;
 
-  pasoModo.hidden = false;
-  ingresoDatos2.hidden = true;
-  ingresoDatos3.hidden = true;
+    // Restaurar vistas iniciales
+    if (seccionInstrucciones) seccionInstrucciones.hidden = false;
+    if (contenedorIniciar) contenedorIniciar.hidden = false;
+    if (btnVerInstrucciones) btnVerInstrucciones.hidden = true;
 
-  // Resetea las variables de selección de jugador
-  listaNombres = [];
-  jugadores = [];
+    // Reseteo de datos
+    listaNombres = [];
+    jugadores = [];
+  }
 }
 
 

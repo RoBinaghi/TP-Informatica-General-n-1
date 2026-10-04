@@ -513,3 +513,31 @@ input{
 }
 
 
+/* Contenedor de Instrucciones dentro del Main */
+#seccionInstrucciones {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-left: 5px solid #2980b9;
+  padding: 20px;
+  margin-bottom: 25px;
+  border-radius: 6px;
+}
+
+#seccionInstrucciones h2 {
+  color: #2c3e50;
+  margin-top: 10px;
+}
+
+#btnOcultarInstrucciones, #btnVerInstrucciones {
+  background-color: #7f8c8d;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+#btnOcultarInstrucciones:hover, #btnVerInstrucciones:hover {
+  background-color: #626d6e;
+}
