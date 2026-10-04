@@ -17,7 +17,7 @@ function renderizarPuntajes() {
 
   //3. Cargar y procesar datos de "Cinefilia"
   const datosCinefilia = localStorage.getItem("cinefilia_records");
-  const recordsCinefilia = datosCinefilia ? JSON.parse(datosCinefilia) :
+  const recordsCinefilia = datosCinefilia ? JSON.parse(datosCinefilia) : [];
 
   // Contenedor principal de listas
   const contenedorListas = document.createElement("div");
@@ -85,14 +85,14 @@ function renderizarPuntajes() {
   contenedorListas.appendChild(tituloCinefilia);
 
   if(recordsCinefilia.length === 0){
-    constpVacios = document.createElement("p");
+    const pVacios = document.createElement("p");
     pVacios.innerText = "No hay puntajes registrados aun.";
     contenedorListas.appendChild(pVacios);
   }
   else{
-    recordsCinefilia.sort((a,b)) => b.puntos - a.puntos);
+    recordsCinefilia.sort((a,b) => b.puntos - a.puntos);
 
-    constolCinefilia = document.createElement("ol");
+    const olCinefilia = document.createElement("ol");
     recordsCinefilia.slice(0,10).forEach((rec,posicion) => {
       const li = document.createElement("li");
       li.innerText = `${posicion + 1}. ${rec.nombre}: ${rec.puntos} puntos`;
@@ -118,6 +118,7 @@ contenedorListas.appendChild(olCinefilia);
       // Eliminar registros de la Web Storage
       localStorage.removeItem("casita_records");
       localStorage.removeItem("dados_records");
+      localStorage.removeItem("cinefilia_records");
 
       alert("Los puntajes fueron borrados correctamente.");
       

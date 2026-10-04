@@ -1,5 +1,5 @@
 // Configuración de la API
-const API_KEY = "dc9dd06e3098f2f28176f4049c6238f7"; // Clave de TMDB[cite: 1]
+const API_KEY = "dc9dd06e3098f2f28176f4049c6238f7"; // Clave de TMDB
 const URL_BASE = "https://api.themoviedb.org/3";
 const URL_IMAGEN = "https://image.tmdb.org/t/p/w500";
 
@@ -20,7 +20,7 @@ let timerInterval = null;
 let desenfoqueActual = 15;
 let segundosRestantes = 15;
 
-// Referencias a los elementos del DOM[cite: 4]
+// Referencias a capturas de los elementos del DOM
 const ingresoDatos2 = document.querySelector("#ingresoDatos2");
 const ingresoDatos3 = document.querySelector("#ingresoDatos3");
 const numeroParticipantes = document.querySelector("#cantidadParticipantes");
@@ -43,6 +43,30 @@ const pantallaFinal = document.querySelector("#pantalla-final");
 const listaPuntajesPartida = document.querySelector("#lista-puntajes-partida");
 const listaRecords = document.querySelector("#lista-records");
 const btnReiniciar = document.querySelector("#btn-reiniciar");
+
+// ==========================================
+// 0. Control de Instrucciones e Inicio
+// ==========================================
+
+if (btnIniciarPartida) {
+  btnIniciarPartida.addEventListener("click", () => {
+    if (seccionInstrucciones) seccionInstrucciones.hidden = true;
+    if (contenedorIniciar) contenedorIniciar.hidden = true;
+    if (btnVerInstrucciones) btnVerInstrucciones.hidden = false;
+
+    // Se muestra el primer paso de configuración (ingreso de participantes)
+    if (ingresoDatos2) ingresoDatos2.hidden = false;
+  });
+}
+
+// 2. Botón para alternar/releer la visibilidad de las instrucciones durante la partida
+if (btnVerInstrucciones) {
+  btnVerInstrucciones.addEventListener("click", () => {
+    if (seccionInstrucciones) {
+      seccionInstrucciones.hidden = !seccionInstrucciones.hidden;
+    }
+  });
+}
 
 // ==========================================
 // 1. Ingreso de participantes
@@ -110,7 +134,7 @@ ingresarNombre.addEventListener("click", (e) => {
 });
 
 // ==========================================
-// 2. Consumo de la API con async / await
+// 2. Consumo de la API 
 // ==========================================
 async function obtenerPeliculas() { //
   try {
@@ -270,8 +294,6 @@ const avanzarFlujo = () => {
     }
   }, 2000);// todo este proceso ocurrira cada 2 segundos
 };
-   // 
-
 
 // ==========================================
 // 4. Pantalla final y persistencia en localStorage

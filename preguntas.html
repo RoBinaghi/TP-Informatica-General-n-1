@@ -22,54 +22,71 @@
  </nav>
  </header>
  <main class="mainconteiner">
-   <h1>Juego de preguntas</h1>
-    <h2>Cinefilia: Duelo de Películas</h2>
+    <h1>Cinefilia:</h1>
+    <h2>Duelo de peliculas</h2>
     <!--Instrucciones del juego -->
-  <article>
+    <section id="seccionInstrucciones">
+      <article>
 
-    <h2> Objetivo del Juego</h2>
-    <p>Acumular la mayor cantidad de puntos posibles sin superar el límite de 21 en cada ronda. El primer usuario en ganar 3 rondas se corona como el ganador definitivo de la partida.</p>
+    <h2>Objetivo del Juego</h2>
+    <p>Demostrar el conocimiento cinemátográfico acumulado identificando afiches de películas en el menor tiempo posible. El participante que sume la mayor cantidad de puntos al cabo de 5 rondas se corona como el ganador de la partida.</p>
 
-    <h2> Lanzamiento y Puntuación</h2>
-    <p>En cada tiro se lanzan 2 dados de 6 caras y el resultado modifica el puntaje acumulado:</p>
+    <h2> Mecánica de Juego y Puntuación</h2>
+    <p>En cada turno se presenta el afiche de una película con un efecto de desenfoque e inicia una cuenta regresiva de 15 segundos:</p>
     <ul>
-      <li><strong>Suma Estándar:</strong> El puntaje obtenido es la suma simple de ambos dados (Dado 1 + Dado 2).</li>
-      <li><strong>Doble As (1 y 1):</strong> Otorga la opción de sumar 2 o 14 puntos (según le convenga al usuario para no pasarse).</li>
-      <li><strong>Pares Iguales (2 y 2, 3 y 3, etc.):</strong> Duplican la suma obtenida en esa tirada (por ejemplo, un doble 4 suma 16 puntos en lugar de 8).</li>
+      <li><strong>Desenfoque progresivo:</strong>Cada 3 segundos la imagen reduce su nivel de desenfoque, volviéndose gradualmente más nítida a medida que el tiempo transcurre.</li>
+      <li><strong>Acierto Temprano:</strong>Si el participante selecciona la opción correcta, obtiene un puntaje base de 100 puntos más una bonificación proporcional a la nitidez pendiente (a mayor desenfoque al momento de responder, mayor puntaje obtenido).</li>
+      <li><strong>Error o Tiempo Agotado:</strong>Si el participante selecciona una opción incorrecta o el temporizador llega a 0, suma 0 puntos en la ronda y se revela la respuesta correcta en pantalla.</li>
     </ul>
 
-    <h2> Mecánica del Turno</h2>
-    <p>El usuario inicia su turno eligiendo entre <strong>Tirar</strong> o <strong>Plantarse</strong>:</p>
+     <h2>Mecanica del turno</h2>
+    <p>El usuario interactúa directamente con la interfaz seleccionando una de las alternativas:</p>
     <ul>
-      <li>Puede lanzar los dados cuantas veces desee mientras el total de la ronda no supere los 21 puntos.</li>
-      <li><strong>Pérdida por Exceso (Bust):</strong> Si el acumulado supera los 21 puntos en cualquier tiro, el usuario suma 0 puntos en esa ronda y su turno termina automáticamente.</li>
-      <li><strong>Plantarse:</strong> Al presionar este botón, el usuario congela su puntaje actual y cede el turno al siguiente participante.</li>
+      <li><strong>Opciones Múltiples:</strong> En cada ronda se despliegan 4 botones con títulos de películas.</li>
+      <li><strong>Selección:</strong> Al presionar un botón, el temporizador se detiene, la imagen se revela por completo y se valida el resultado.</li>
+      <li><strong>Transición:</strong>Tras una breve pausa de 2 segundos, el sistema avanza automáticamente a la siguiente ronda o al turno del siguiente jugador.</li>
     </ul>
 
     <h2> Sistema de Puntuación y Rondas</h2>
     <ul>
-      <li><strong>Puntos por Ronda:</strong> Al finalizar los turnos de todos los participantes, se comparan las puntuaciones finales válidas.</li>
-      <li><strong>Ganador de Ronda:</strong> El usuario con la puntuación válida más alta (más cercana a 21) recibe 1 Victoria en el marcador global.</li>
-      <li><strong>Empate:</strong> Si dos o más usuarios se plantan con la misma puntuación máxima, todos reciben 1 Victoria en esa ronda.</li>
-      <li><strong>Fin de la Partida:</strong> La partida termina inmediatamente cuando un usuario alcanza un total de 3 Victorias.</li>
+      <li><strong>Rondas por Participante:</strong> Cada usuario juega 5 rondas consecutivas para registrar su puntaje total acumulado.</li>
+      <li><strong>Ranking de Partida:</strong>Al finalizar los turnos de todos los participantes, se comparan los puntajes acumulados y se despliega la tabla de posiciones finales.</li>
+      <li><strong>Historial de Récords:</strong> Los puntajes obtenidos se registran en el almacenamiento local para actualizar el ranking histórico general de la aplicación.</li>
     </ul>
 
   </article>
+  </section>
+  <!-- BOTÓN INICIAR PARTIDA (Inmediatamente después de las instrucciones) -->
+  <div id="contenedorIniciar">
+    <button type="button" id="btnIniciarPartida">🚀 Iniciar Partida</button>
+  </div>
+
+  <!-- BOTÓN PARA RELEER INSTRUCCIONES (Oculto al principio, disponible durante la configuración/juego) -->
+  <button type="button" id="btnVerInstrucciones" hidden>Leer Instrucciones</button>
+
  <!-- Paso 1: Ingresar cantidad de participantes -->
-    <form id="ingresoDatos2">
+    <form id="ingresoDatos2" hidden>
       <label for="cantidadParticipantes">¿Cuántos participantes son?</label><br>
       <input type="number" name="cantidadParticipantes" id="cantidadParticipantes" min="1" placeholder="Mínimo 1"><br>
       <button type="button" id="ingresarCantidad">Ingresar cantidad</button>
     </form>
 
     <!-- Paso 2: Ingresar nombres de forma secuencial -->
-    <form id="ingresoDatos3">
+    <form id="ingresoDatos3" hidden>
       <label id="nombreNumero" for="nombreJugador">Nombre del participante 1:</label><br>
       <input type="text" name="nombreJugador" id="nombreJugador" placeholder="Nombre o alias" disabled><br>
       <button type="button" id="ingresarNombre" disabled>Ingresar Nombre</button>
     </form>
     
     <!-- Paso 3: Área activa de juego -->
+     <!-- indicadores cuando comienza el juego-->
+      <div id="marcador" class="marcador" hidden>
+        <p>Turno: <span id="texto-turno-jugador">-</span></p>
+        <p>Ronda: <span id="texto-ronda">1</span> / 5</p>
+        <p>Puntos de la ronda: <span id="texto-puntos">0</span></p>
+      </div>
+
+
     <section id="pasoJuego" hidden>
       <div class="contenedor-poster">
         <img id="poster-pelicula" src="" alt="Póster con desenfoque">
@@ -78,13 +95,7 @@
       <div id="contenedor-opciones" class="grilla-opciones"></div>
     </section>
 
-    <!-- indicadores cuando comienza el juego-->
-      <div id="marcador" class="marcador" hidden>
-        <p>Turno: <span id="texto-turno-jugador">-</span></p>
-        <p>Ronda: <span id="texto-ronda">1</span> / 5</p>
-        <p>Puntos de la ronda: <span id="texto-puntos">0</span></p>
-      </div>
-
+  
     <!-- Paso 4: Resultados finales y récords locales-->
     <section id="pantalla-final" hidden>
       <h2>¡Fin de la Partida!</h2>
@@ -102,7 +113,7 @@
      <button id="btn-reiniciar" type="button" hidden>Jugar Nueva Partida</button>
   </main>
  <footer>
-<p> <p>pagina de juegos(cambiarnombre) Rocio Binaghi | Rojas Micaela</p>
+<p> <p>Informática General TP N° 1 Rocio Binaghi | Rojas Micaela</p>
  </footer> 
  </div>
  <script src="js/preguntas.js"></script> 

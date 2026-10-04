@@ -252,7 +252,7 @@ function aplicarEleccionDobleAs(puntosElegidos) {
 
   // Rehabilitar botones de juego si el jugador no superó los 21 puntos
   if (acumuladoRonda[jugadorActual] <= 21) {
- tirarDados.disabled = false; /
+ tirarDados.disabled = false; 
 plantarse.disabled = false; 
   }
 }
