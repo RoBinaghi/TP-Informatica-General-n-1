@@ -38,6 +38,8 @@ function renderizarPuntajes() {
     pVacios.innerText = "No hay puntajes registrados aún.";
     tarjetaCasita.appendChild(pVacios);
   } else {
+    participantesCasita.sort((a,b) => b.cartas - a.cartas);
+    
     const olCasita = document.createElement("ol");
     olCasita.style.listStyleType = "none";
 
@@ -72,7 +74,7 @@ function renderizarPuntajes() {
     const olDados = document.createElement("ol");
     olDados.style.listStyleType = "none";
 
-    participantesDados.forEach((rec, posicion) => {
+    participantesDados.slice(0, 10).forEach((rec, posicion) => {
       const li = document.createElement("li");
       li.innerText = `${posicion + 1}° ${rec.nombre}: ${rec.victorias} victoria(s)`;
       olDados.appendChild(li);
@@ -88,7 +90,7 @@ function renderizarPuntajes() {
   tarjetaCinefilia.classList.add("tarjeta-puntaje");
 
   const tituloCinefilia = document.createElement("h2");
-  tituloCinefilia.innerText = "Cinefilia Trivia";
+  tituloCinefilia.innerText = "Puntajes - Cinefilia Trivia";
   tarjetaCinefilia.appendChild(tituloCinefilia);
 
   if (recordsCinefilia.length === 0) {

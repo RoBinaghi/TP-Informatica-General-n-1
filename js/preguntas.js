@@ -21,6 +21,10 @@ let desenfoqueActual = 15;
 let segundosRestantes = 15;
 
 // Referencias a capturas de los elementos del DOM
+const btnIniciarPartida = document.querySelector("#btnIniciarPartida");
+const seccionInstrucciones = document.querySelector("#seccionInstrucciones");
+const contenedorIniciar = document.querySelector("#contenedorIniciar");
+const btnVerInstrucciones = document.querySelector("#btnVerInstrucciones");
 const ingresoDatos2 = document.querySelector("#ingresoDatos2");
 const ingresoDatos3 = document.querySelector("#ingresoDatos3");
 const numeroParticipantes = document.querySelector("#cantidadParticipantes");
@@ -33,6 +37,7 @@ const marcador = document.querySelector("#marcador");
 const textoTurnoJugador = document.querySelector("#texto-turno-jugador");
 const txtRonda = document.querySelector("#texto-ronda");
 const txtPuntos = document.querySelector("#texto-puntos");
+
 
 const pasoJuego = document.querySelector("#pasoJuego");
 const imgPoster = document.querySelector("#poster-pelicula");
@@ -324,11 +329,13 @@ const guardarRecordsPartida = () => {
   const datosPrevios = localStorage.getItem("cinefilia_records"); //[cite: 2]
   const records = datosPrevios ? JSON.parse(datosPrevios) : []; //[cite: 2, 3]
 
-  // Agregar los participantes de la partida actual al historial general
-  jugadores.forEach(j => {
-    records.push({ nombre: j.nombre, puntos: j.puntos });
+  // Recorrer y agregar los participantes de la partida actual al historial general
+  jugadores.forEach(function(j) {
+    records.push({ 
+      nombre: j.nombre, 
+      puntos: j.puntos 
+    });
   });
-
   localStorage.setItem("cinefilia_records", JSON.stringify(records)); //[cite: 2]
 };
 
