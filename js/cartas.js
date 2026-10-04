@@ -52,7 +52,7 @@ const valores = [1, 2, 3, 4, 5, 6, 7, 10, 11, 12,13];
 // CONTROL DE VISIBILIDAD DE INSTRUCCIONES
 // ==========================================
 
-// 1. Al pulsar "Iniciar Partida", se ocultan instrucciones y pasa al paso de selección
+// Al pulsar "Iniciar Partida", se ocultan instrucciones y pasa al paso de selección
 if (btnIniciarPartida) {
   btnIniciarPartida.addEventListener("click", () => {
     if (seccionInstrucciones) seccionInstrucciones.hidden = true;
@@ -63,7 +63,7 @@ if (btnIniciarPartida) {
   });
 }
 
-// 2. Botón para alternar/releer la visibilidad de las instrucciones
+//  Botón para alternar/releer la visibilidad de las instrucciones
 if (btnVerInstrucciones) {
   btnVerInstrucciones.addEventListener("click", () => {
     seccionInstrucciones.hidden = !seccionInstrucciones.hidden;

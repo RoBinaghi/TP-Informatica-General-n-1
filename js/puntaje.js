@@ -7,128 +7,139 @@ function renderizarPuntajes() {
   // Limpiar el contenedor principal antes de recargar
   listaPuntajes.innerHTML = "";
 
-  // 1. Cargar y procesar datos del juego de "Casita Robada"
+  // Cargar datos de WebStorage
   const datosCasita = localStorage.getItem("casita_records");
   const recordsCasita = datosCasita ? JSON.parse(datosCasita) : [];
 
-  // 2. Cargar y procesar datos del juego de "Dados"]
   const datosDados = localStorage.getItem("dados_records");
   const recordsDados = datosDados ? JSON.parse(datosDados) : [];
 
-  //3. Cargar y procesar datos de "Cinefilia"
   const datosCinefilia = localStorage.getItem("cinefilia_records");
   const recordsCinefilia = datosCinefilia ? JSON.parse(datosCinefilia) : [];
 
-  // Contenedor principal de listas
+  // 1. Crear el contenedor Flexbox que albergará la hilera de tarjetas
   const contenedorListas = document.createElement("div");
+  contenedorListas.classList.add("contenedor-tarjetas-puntaje");
 
   // ==========================================
   // SECCIÓN 1: PUNTAJES DE CASITA ROBADA
   // ==========================================
-  const tituloCasita = document.createElement("h2");
-  tituloCasita.innerText = "Puntajes - Casita Robada";
-  contenedorListas.appendChild(tituloCasita);
+  const tarjetaCasita = document.createElement("article");
+  tarjetaCasita.classList.add("tarjeta-puntaje");
 
-  // Filtrar para excluir a la Computadora
+  const tituloCasita = document.createElement("h2");
+  tituloCasita.innerText = "Casita Robada";
+  tarjetaCasita.appendChild(tituloCasita);
+
   const participantesCasita = recordsCasita.filter(rec => rec.nombre !== "Computadora");
 
   if (participantesCasita.length === 0) {
     const pVacios = document.createElement("p");
-    pVacios.innerText = "No hay puntajes de participantes registrados aún.";
-    contenedorListas.appendChild(pVacios);
+    pVacios.innerText = "No hay puntajes registrados aún.";
+    tarjetaCasita.appendChild(pVacios);
   } else {
     const olCasita = document.createElement("ol");
+    olCasita.style.listStyleType = "none";
+
     participantesCasita.slice(0, 10).forEach((rec, posicion) => {
       const li = document.createElement("li");
-      li.innerText = (posicion + 1) + ". " + rec.nombre + ": " + rec.cartas + " cartas";
+      li.innerText = `${posicion + 1}° ${rec.nombre}: ${rec.cartas} cartas`;
       olCasita.appendChild(li);
     });
-    contenedorListas.appendChild(olCasita);
+    tarjetaCasita.appendChild(olCasita);
   }
+  contenedorListas.appendChild(tarjetaCasita);
 
   // ==========================================
   // SECCIÓN 2: PUNTAJES DE DADOS
   // ==========================================
-  const tituloDados = document.createElement("h2");
-  tituloDados.innerText = "Puntajes - Juego de Dados";
-  contenedorListas.appendChild(tituloDados);
+  const tarjetaDados = document.createElement("article");
+  tarjetaDados.classList.add("tarjeta-puntaje");
 
-  // Filtrar para excluir a la Computadora
+  const tituloDados = document.createElement("h2");
+  tituloDados.innerText = "Juego de Dados";
+  tarjetaDados.appendChild(tituloDados);
+
   const participantesDados = recordsDados.filter(rec => rec.nombre !== "Computadora");
 
   if (participantesDados.length === 0) {
     const pVacios = document.createElement("p");
-    pVacios.innerText = "No hay puntajes de participantes registrados aún.";
-    contenedorListas.appendChild(pVacios);
+    pVacios.innerText = "No hay puntajes registrados aún.";
+    tarjetaDados.appendChild(pVacios);
   } else {
-    // Ordenar de mayor a menor según victorias acumuladas
     participantesDados.sort((a, b) => b.victorias - a.victorias);
 
     const olDados = document.createElement("ol");
+    olDados.style.listStyleType = "none";
+
     participantesDados.forEach((rec, posicion) => {
       const li = document.createElement("li");
-      li.innerText = (posicion + 1) + ". " + rec.nombre + " - " + rec.victorias + " victoria(s)";
+      li.innerText = `${posicion + 1}° ${rec.nombre}: ${rec.victorias} victoria(s)`;
       olDados.appendChild(li);
     });
-    contenedorListas.appendChild(olDados);
+    tarjetaDados.appendChild(olDados);
   }
+  contenedorListas.appendChild(tarjetaDados);
 
-  // Insertar todas las listas construidas en el DOM
-  listaPuntajes.appendChild(contenedorListas);
+  // ==========================================
+  // SECCIÓN 3: PUNTAJES CINEFILIA TRIVIA
+  // ==========================================
+  const tarjetaCinefilia = document.createElement("article");
+  tarjetaCinefilia.classList.add("tarjeta-puntaje");
 
-  
-  // ==========================================
-  // SECCIÓN 3: PUNTAJES JUEGO DE PREGUNTAS
-  // ==========================================
   const tituloCinefilia = document.createElement("h2");
-  tituloCinefilia.innerText = "Puntajes = Cinefilia Trivia";
-  contenedorListas.appendChild(tituloCinefilia);
+  tituloCinefilia.innerText = "Cinefilia Trivia";
+  tarjetaCinefilia.appendChild(tituloCinefilia);
 
-  if(recordsCinefilia.length === 0){
+  if (recordsCinefilia.length === 0) {
     const pVacios = document.createElement("p");
-    pVacios.innerText = "No hay puntajes registrados aun.";
-    contenedorListas.appendChild(pVacios);
-  }
-  else{
-    recordsCinefilia.sort((a,b) => b.puntos - a.puntos);
+    pVacios.innerText = "No hay puntajes registrados aún.";
+    tarjetaCinefilia.appendChild(pVacios);
+  } else {
+    recordsCinefilia.sort((a, b) => b.puntos - a.puntos);
 
     const olCinefilia = document.createElement("ol");
-    recordsCinefilia.slice(0,10).forEach((rec,posicion) => {
+    olCinefilia.style.listStyleType = "none";
+
+    recordsCinefilia.slice(0, 10).forEach((rec, posicion) => {
       const li = document.createElement("li");
-      li.innerText = `${posicion + 1}. ${rec.nombre}: ${rec.puntos} puntos`;
+      li.innerText = `${posicion + 1}° ${rec.nombre}: ${rec.puntos} puntos`;
       olCinefilia.appendChild(li);
-});
-contenedorListas.appendChild(olCinefilia);
+    });
+    tarjetaCinefilia.appendChild(olCinefilia);
   }
-  //insertar listas en el dom
+  contenedorListas.appendChild(tarjetaCinefilia);
+
+  // Insertar la hilera completa de tarjetas en la vista
   listaPuntajes.appendChild(contenedorListas);
-
-
 
   // ==========================================
   // SECCIÓN 4: BOTÓN DE REINICIAR PUNTAJES
   // ==========================================
+  const contenedorBoton = document.createElement("div");
+  contenedorBoton.style.textAlign = "center";
+  contenedorBoton.style.width = "100%";
+
   const btnReiniciar = document.createElement("button");
   btnReiniciar.type = "button";
+  btnReiniciar.id = "btn-reiniciar";
   btnReiniciar.innerText = "Reiniciar Puntajes";
-  btnReiniciar.style.marginTop = "20px";
+  btnReiniciar.style.marginTop = "25px";
 
   btnReiniciar.addEventListener("click", () => {
     if (confirm("¿Estás seguro de que querés borrar todos los puntajes registrados?")) {
-      // Eliminar registros de la Web Storage
       localStorage.removeItem("casita_records");
       localStorage.removeItem("dados_records");
       localStorage.removeItem("cinefilia_records");
 
       alert("Los puntajes fueron borrados correctamente.");
-      
-      // Volver a renderizar para actualizar la pantalla
       renderizarPuntajes();
     }
   });
 
-  listaPuntajes.appendChild(btnReiniciar);
+  contenedorBoton.appendChild(btnReiniciar);
+  listaPuntajes.appendChild(contenedorBoton);
 }
 
-// Ejecutar la función al cargar la página puntaje.html
+// Ejecutar la función al cargar la página
 renderizarPuntajes();

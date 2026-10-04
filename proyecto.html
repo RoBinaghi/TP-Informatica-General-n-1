@@ -4,27 +4,123 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/estilo.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <title>Sobre el proyecto</title>
 </head>
 <body>
-    <div id="contenedor">
-<header><nav>
-    <ul>
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="dados.html">Juego de dados</a></li>
-        <li><a href="preguntas.html">Juego de preguntas</a></li>
-        <li><a href="cartas.html">Juego de cartas</a></li>
-        <li><a href="puntaje.html">Puntaje</a></li>
-        <li><a href="proyecto.html">Sobre el proyecto</a></li>
-    </ul>    
- </nav>
- </header>
- <main class="mainconteiner">
+  <div id="contenedor">
+    <header>
+      <nav>
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="dados.html">Juego de dados</a></li>
+            <li><a href="preguntas.html">Juego de preguntas</a></li>
+            <li><a href="cartas.html">Juego de cartas</a></li>
+            <li><a href="puntaje.html">Puntaje</a></li>
+            <li><a href="proyecto.html" class="activo">Sobre el proyecto</a></li>
+        </ul>    
+      </nav>
+    </header>
 
- </main>  
- <footer>
-     <p>Informática General TP N° 1 - Rocio Binaghi | Rojas Micaela</p>
- </footer>
-    </div> 
+    <main class="mainconteiner">
+      <h1 class="titulo">SOBRE EL PROYECTO Y EQUIPO DE DESARROLLO</h1>
+      <div class="bajo-titulo"></div>
+
+<!-- SECCIÓN 1: INTEGRANTES CON FOTOS -->
+<section class="seccion-proyecto">
+  <h2> Integrantes del Equipo</h2>
+  <p class="texto-introduccion">
+    Este proyecto fue desarrollado en forma conjunta como Trabajo Práctico para la materia <strong>Informática General</strong>:
+  </p>
+
+  <!-- Contenedor principal de las integrantes -->
+  <div class="contenedor-integrantes">
+    
+    <!-- Fila 1: Las dos fotos en la misma línea -->
+    <div class="fila-fotos">
+      <div class="contenedor-foto-integrante">
+        <img src="img/alumnas/micaela.png" alt="Foto de Micaela Rojas" class="foto-integrante">
+      </div>
+      <div class="contenedor-foto-integrante">
+        <img src="img/alumnas/rocio.png" alt="Foto de Rocío Binaghi" class="foto-integrante">
+      </div>
+    </div>
+
+    <!-- Fila 2: La información/texto de cada una abajo -->
+    <div class="fila-info">
+      <div class="info-integrante">
+        <h3>Micaela Rojas</h3>
+        <p class="rol-integrante">Desarrolladora Web</p>
+      </div>
+      <div class="info-integrante">
+        <h3>Rocío Binaghi</h3>
+        <p class="rol-integrante">Desarrolladora Web</p>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="catedra-info">
+    <em>Cátedra: Valeria Drelichman | Pedro Paleo | Leonardo Nadel | Norma Morales</em>
+  </p>
+</section>
+      </section>
+
+      <!-- SECCIÓN 2: DESARROLLO TÉCNICO -->
+      <section class="seccion-proyecto">
+        <h2> Desarrollo del Proyecto</h2>
+        <p>
+          La plataforma es una aplicación web interactiva desarrollada con <strong>HTML5, CSS3 y JavaScript nativo (Vanilla JS)</strong>. Integra tres juegos interactivos diferentes y un módulo centralizado de puntuaciones:
+        </p>
+        
+        <article class="tarjeta-desarrollo">
+          <h3> 21 con Dados</h3>
+          <p>
+            Juego de estrategia en el que los jugadores tiran dos dados intentando acercarse lo más posible a 21 puntos sin pasarse. Incluye reglas especiales (Suma estándar, Pares Iguales, Doble As y Puntas) y soporte para jugar contra la computadora o más participantes.
+          </p>
+        </article>
+
+        <article class="tarjeta-desarrollo">
+          <h3> Casita Robada</h3>
+          <p>
+            Implementación interactiva del clásico juego de cartas. Permite realizar capturas desde la mesa central o robar la pila ("casita") de las cartas acumuladas por los oponentes.
+          </p>
+        </article>
+
+        <article class="tarjeta-desarrollo">
+          <h3> Cinefilia Trivia</h3>
+          <p>
+            Juego de preguntas y respuestas temático sobre cine para poner a prueba los conocimientos del usuario y sumar puntos en base a las respuestas correctas.<br>
+            <strong>API utilizada:</strong> <a href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer">The Movie Database (TMDB) API</a>
+          </p>
+        </article>
+
+        <article class="tarjeta-desarrollo">
+          <h3> Sistema de Puntajes y Registros</h3>
+          <p>
+            Módulo de almacenamiento que centraliza las puntuaciones históricas de todos los juegos utilizando <code>localStorage</code> (Web Storage) Permite listar las posiciones de mayor a menor con formato ordinal (1°, 2°, 3°...) y filtrar participantes.
+          </p>
+        </article>
+      </section>
+
+      <!-- SECCIÓN 3: METODOLOGÍA -->
+      <section class="seccion-proyecto">
+        <h2>Metodología y Control de Versiones</h2>
+        <p>Para la realización de este proyecto en conjunto se aplicaron prácticas de desarrollo colaborativo mediante <strong>Git y GitHub</strong>:</p>
+        <ul class="lista-metodologia">
+            <li><strong>Repositorio compartido:</strong> Configuración del repositorio remoto con asignación de colaboradores.</li>
+            <li><strong>Flujo de trabajo:</strong> Aplicación constante del ciclo de trabajo en equipo: <code>pull → trabajo local → add → commit → push</code></li>
+            <li><strong>Consumo de APIs:</strong> Integración dinámica mediante peticiones asíncronas con <code>fetch()</code> a la API de TMDB.</li>
+            <li><strong>Uso de IA como guía:</strong> Apoyo en modelos de Inteligencia Artificial para la resolución de dudas lógicas, optimización de algoritmos y estandarización del código.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer>
+      <p>Informática General TP N° 1 - Rocio Binaghi | Rojas Micaela</p>
+    </footer>
+  </div>
 </body>
 </html>

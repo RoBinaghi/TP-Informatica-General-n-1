@@ -27,6 +27,7 @@ const btnSumar2 = document.querySelector("#btnSumar2");
 const btnSumar14 = document.querySelector("#btnSumar14");
 
 // Variable auxiliar para pausar el turno mientras se espera la decisión del usuario
+//Idea de la IA para que el juego no queda expuesto a bugs de doble tiro involuntario y a que el jugador pueda saltearse la elección obligatoria del Doble As
 let esperandoEleccionDobleAs = false;
 
 // ==========================================
@@ -37,7 +38,11 @@ const contenedorIniciar = document.querySelector("#contenedorIniciar");
 const btnIniciarPartida = document.querySelector("#btnIniciarPartida");
 const btnVerInstrucciones = document.querySelector("#btnVerInstrucciones");
 
-// 1. Al presionar "Iniciar Partida": Se ocultan las instrucciones y empieza la carga de datos
+// ==========================================
+// CONTROL DE VISIBILIDAD DE INSTRUCCIONES
+// ==========================================
+
+// Al presionar "Iniciar Partida": Se ocultan las instrucciones y empieza la carga de datos
 if (btnIniciarPartida) {
   btnIniciarPartida.addEventListener("click", () => {
     // Oculta las instrucciones iniciales y el botón de iniciar
@@ -52,7 +57,7 @@ if (btnIniciarPartida) {
   });
 }
 
-// 2. Botón para desplegar / ocultar las instrucciones durante la carga o la partida
+//  Botón para desplegar / ocultar las instrucciones durante la carga o la partida
 if (btnVerInstrucciones) {
   btnVerInstrucciones.addEventListener("click", () => {
     // Alterna la visibilidad (si estaba oculto lo muestra, si estaba visible lo oculta)
@@ -80,12 +85,12 @@ let ronda = 1;
 
 function renderizarImagenesDados(dado1, dado2) {
   return `
-    <img src="img/dados/${dado1}.png" alt="Dado ${dado1}" width="50" style="margin-right: 5px; vertical-align: middle;">
-    <img src="img/dados/${dado2}.png" alt="Dado ${dado2}" width="50" style="vertical-align: middle;">
+   <img src="img/dados/${dado1}.png" alt="Dado ${dado1}">
+    <img src="img/dados/${dado2}.png" alt="Dado ${dado2}">
   `;
 }
 // ==========================================
-// REGISTRO DE PARTICIPANTES Y MODALIDAD
+// Configuración e Ingreso de Datos
 // ==========================================
 
 jugarContraCompu.addEventListener("click", () => {
@@ -145,29 +150,6 @@ ingresarNombre.addEventListener("click", (e) => {
     }}
 });
 
-function iniciarEstructuraPartida() {
-// Asegurar que las instrucciones estén ocultas cuando arranca la mesa de dados
-  if (seccionInstrucciones) seccionInstrucciones.hidden = true;
-  ingresoDatos3.hidden = true;
-  pasoJuego.hidden = false;
-
-  // Habilitar los controles de la partida
-  tirarDados.hidden = false;
-  plantarse.hidden = false;
-  jugarDeNuevo.hidden = false; // Se mantiene visible el botón Reiniciar
-
-  victoriasGlobales = [];
-  acumuladoRonda = [];
-  
-  for (let i = 0; i < listaNombres.length; i++) {
-    victoriasGlobales.push(0);
-    acumuladoRonda.push(0);
-  }
-  jugadorActual = 0;
-  ronda = 1;
-  juegoTerminado = false;
-  iniciarTurno();
-}
 // ==========================================
 // ACCIÓN DEL BOTÓN REINICIAR PARTIDA
 // ==========================================
@@ -192,6 +174,31 @@ if (confirm("¿Estás seguro de que querés reiniciar la partida?")) {
     if (mensajeJuego) mensajeJuego.innerText = "";
   }
 });
+
+function iniciarEstructuraPartida() {
+// Asegurar que las instrucciones estén ocultas cuando arranca la mesa de dados
+  if (seccionInstrucciones) seccionInstrucciones.hidden = true;
+  ingresoDatos3.hidden = true;
+  pasoJuego.hidden = false;
+
+  // Habilitar los controles de la partida
+  tirarDados.hidden = false;
+  plantarse.hidden = false;
+  jugarDeNuevo.hidden = false; // Se mantiene visible el botón Reiniciar
+
+  victoriasGlobales = [];
+  acumuladoRonda = [];
+  
+  for (let i = 0; i < listaNombres.length; i++) {
+    victoriasGlobales.push(0);
+    acumuladoRonda.push(0);
+  }
+  jugadorActual = 0;
+  ronda = 1;
+  juegoTerminado = false;
+  iniciarTurno();
+}
+
 // ==========================================
 // DINÁMICA DEL TURNO Y REGLAS DE PUNTUACIÓN
 // ==========================================
@@ -260,7 +267,7 @@ plantarse.disabled = false;
 // Suma el puntaje obtenido y evalúa las condiciones de descalificación por exceso
 function aplicarPuntosTiro(dado1, dado2, puntosObtenidos) {
  acumuladoRonda[jugadorActual] += puntosObtenidos; 
- resultadosDados.innerHTML = renderizarImagenesDados(dado1, dado2) + ` (+${puntosObtenidos} pts)`; 
+ resultadosDados.innerHTML = renderizarImagenesDados(dado1, dado2); 
   puntajeActual.innerText = acumuladoRonda[jugadorActual]; 
   // Pérdida por Exceso (Bust)
   if (acumuladoRonda[jugadorActual] > 21) {
@@ -344,7 +351,7 @@ function evaluarFinDeRonda() {
   // Verificar si alguien alcanzó 3 victorias (Fin de la partida)
   let ganadorPartida = null;
   for (let i = 0; i < victoriasGlobales.length; i++) {
-    if (victoriasGlobales[i] >= 3) {
+    if (victoriasGlobales[i] >= 3) { //si se quiere cambiar el numero de rondas para ganar, se puede modificar este valor
       ganadorPartida = listaNombres[i];
       break;
     }
@@ -388,3 +395,4 @@ records.sort((a, b) => b.victorias - a.victorias);
  // Guardar en localStorage convertido a string JSON
  localStorage.setItem("dados_records", JSON.stringify(records));
 } 
+
