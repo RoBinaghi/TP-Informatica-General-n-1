@@ -37,10 +37,12 @@ function renderizarPuntajes() {
     pVacios.innerText = "No hay puntajes de participantes registrados aún.";
     contenedorListas.appendChild(pVacios);
   } else {
+    participantesCasita.sort((a,b) => b.cartas - a.cartas);
+    
     const olCasita = document.createElement("ol");
-    participantesCasita.slice(0, 10).forEach((rec, posicion) => {
+    participantesCasita.slice(0, 10).forEach(rec => {
       const li = document.createElement("li");
-      li.innerText = (posicion + 1) + ". " + rec.nombre + ": " + rec.cartas + " cartas";
+      li.innerText = rec.nombre + ": " + rec.cartas + " cartas";
       olCasita.appendChild(li);
     });
     contenedorListas.appendChild(olCasita);
@@ -65,23 +67,19 @@ function renderizarPuntajes() {
     participantesDados.sort((a, b) => b.victorias - a.victorias);
 
     const olDados = document.createElement("ol");
-    participantesDados.forEach((rec, posicion) => {
+    participantesDados.slice(0,10).forEach(rec => {
       const li = document.createElement("li");
-      li.innerText = (posicion + 1) + ". " + rec.nombre + " - " + rec.victorias + " victoria(s)";
+      li.innerText = rec.nombre + ": - " + rec.victorias + " victoria(s)";
       olDados.appendChild(li);
     });
     contenedorListas.appendChild(olDados);
   }
-
-  // Insertar todas las listas construidas en el DOM
-  listaPuntajes.appendChild(contenedorListas);
-
   
   // ==========================================
   // SECCIÓN 3: PUNTAJES JUEGO DE PREGUNTAS
   // ==========================================
   const tituloCinefilia = document.createElement("h2");
-  tituloCinefilia.innerText = "Puntajes = Cinefilia Trivia";
+  tituloCinefilia.innerText = "Puntajes - Cinefilia Trivia";
   contenedorListas.appendChild(tituloCinefilia);
 
   if(recordsCinefilia.length === 0){
@@ -93,9 +91,9 @@ function renderizarPuntajes() {
     recordsCinefilia.sort((a,b) => b.puntos - a.puntos);
 
     const olCinefilia = document.createElement("ol");
-    recordsCinefilia.slice(0,10).forEach((rec,posicion) => {
+    recordsCinefilia.slice(0, 10).forEach(rec => {
       const li = document.createElement("li");
-      li.innerText = `${posicion + 1}. ${rec.nombre}: ${rec.puntos} puntos`;
+      li.innerText = rec.nombre + ": " + rec.puntos + " puntos";
       olCinefilia.appendChild(li);
 });
 contenedorListas.appendChild(olCinefilia);

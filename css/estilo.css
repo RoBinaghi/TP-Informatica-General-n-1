@@ -677,4 +677,49 @@ display: flex;
   margin-bottom: 15px;
 }
 
+/*estilos de puntajes*/
+#listaPuntajes {
+  display: flex; /*[cite: 631] */
+  flex-direction: row; /* Alinea las tarjetas en filas[cite: 635] */
+  flex-wrap: wrap; /* Permite adaptarse en pantallas angostas[cite: 633] */
+  justify-content: space-between; /* Distribución uniforme del espacio[cite: 641] */
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+/*estilos proyecto*/
+.proyecto{
+  display: flex;
+  flex-direction: row; /* Orienta los elementos hijos en fila */
+  justify-content: space-between;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+/* Configuración de cada columna (artículo) */
+.proyecto article {
+  width: 48%; /*  permite dos columnas fluidas */
+  min-width: 280px; 
+  background-color: #050505;
+  border: 1px solid #0c0c0c;
+  border-radius: 8px;
+  padding: 1.5rem; 
+  text-align: center; 
+  margin-bottom: 2rem;
+}
+/* Ajuste proporcional de las imágenes dentro de los artículos */
+.proyecto article img {
+  width: 100%; 
+  max-width: 200px;
+  height: auto;
+  border-radius: 50%;
+  margin: 1rem 0; 
+}
+.maincointeinerno {
+  background: none;
+  background-color: transparent;
+  box-shadow: none; /* Si tenía sombra, también se la quita */
+  border: none;     /* Si tenía borde, lo elimina */
+}
+
+
 
