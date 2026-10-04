@@ -149,6 +149,15 @@ ingresarNombre.addEventListener("click", (e) => {
       iniciarEstructuraPartida();
     }}
 });
+// Captura del botón
+const btnVerPuntajes = document.querySelector("#verPuntajes");
+
+// Evento para ir a la página de puntajes al hacer clic
+if (btnVerPuntajes) {
+  btnVerPuntajes.addEventListener("click", () => {
+    window.location.href = "puntaje.html";
+  });
+}
 
 // ==========================================
 // ACCIÓN DEL BOTÓN REINICIAR PARTIDA
@@ -165,6 +174,7 @@ if (confirm("¿Estás seguro de que querés reiniciar la partida?")) {
     if (seccionInstrucciones) seccionInstrucciones.hidden = false;
     if (contenedorIniciar) contenedorIniciar.hidden = false;
     if (btnVerInstrucciones) btnVerInstrucciones.hidden = true;
+    if (btnVerPuntajes) btnVerPuntajes.hidden = true;
 
     // Resetear variables
     listaNombres = [];
@@ -177,6 +187,7 @@ if (confirm("¿Estás seguro de que querés reiniciar la partida?")) {
 
 function iniciarEstructuraPartida() {
 // Asegurar que las instrucciones estén ocultas cuando arranca la mesa de dados
+if (btnVerPuntajes) btnVerPuntajes.hidden = true;
   if (seccionInstrucciones) seccionInstrucciones.hidden = true;
   ingresoDatos3.hidden = true;
   pasoJuego.hidden = false;
@@ -357,14 +368,19 @@ function evaluarFinDeRonda() {
     }
   }
   if (ganadorPartida !== null) {
- juegoTerminado = true;
-   mensajeJuego.innerText = "¡PARTIDA FINALIZADA! " + ganadorPartida + " se corona como ganador definitivo.";
-    // Ocultar botones de acción
-    tirarDados.hidden = true;
-   plantarse.hidden = true;
-    // Guardar puntajes en Web Storage y redirigir
-    guardarPuntajesLocal();
-  } else {
+juegoTerminado = true;
+  mensajeJuego.innerText = "¡PARTIDA FINALIZADA! " + ganadorPartida + " se corona como ganador definitivo.";
+  
+  // Ocultar botones de tiro y plantarse
+  tirarDados.hidden = true;
+  plantarse.hidden = true;
+
+  // HACE VISIBLE EL BOTÓN PARA VER PUNTAJES
+  if (btnVerPuntajes) btnVerPuntajes.hidden = false;
+
+  // Guardar puntajes en LocalStorage
+  guardarPuntajesLocal();
+} else {
     // Preparar siguiente ronda
     ronda++;
     jugadorActual = 0;
