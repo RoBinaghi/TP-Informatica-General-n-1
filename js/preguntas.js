@@ -146,19 +146,19 @@ async function obtenerPeliculas() {
     const paginaAleatoria = Math.floor(Math.random() * 5) + 1; //mathfloor redondea un numero hacia abajo random genera un numero al azar entre 0y1
     const url = `${URL_BASE}/movie/popular?api_key=${API_KEY}&language=es-ES&page=${paginaAleatoria}`;
 
-    const respuesta = await fetch(url);
+    const respuesta = await fetch(url); //se realiza la solicitud http a la direccion api
 
-    if (!respuesta.ok){
+    if (!respuesta.ok){ // el if que sirve para que si la api no funciona muestre que hubo un error
       alert("Ocurrió un error al consultar el servidor de la API.");
       return;
     }
-    const datos = await respuesta.json(); 
+    const datos = await respuesta.json(); // almacena como objeto la respuesta devuelta por el servidor.
 
-    peliculasCargadas = datos.results.filter(pelicula => pelicula.poster_path !== null);
+    peliculasCargadas = datos.results.filter(pelicula => pelicula.poster_path !== null);// la ia propuso esta linea de codigo para filtrar las peliculas sin afiche. con filter recorre cada elemento de la lista 
 
     iniciarPartida();
   } 
-  catch (error) {
+  catch (error) { // captura los fallos en la seccion try
     console.error("Error al conectar con la API:", error); 
     alert("Hubo un error de conexión al consultar la base de datos.");
   }
@@ -190,11 +190,11 @@ const cargarTurno = () => {
     return;
 }
   const peliculasMezcladas = [...peliculasCargadas].sort(() => 0.5 - Math.random());//math random das un numero al azar entre 0y1
-  const opciones = peliculasMezcladas.slice(0, 4);
+  const opciones = peliculasMezcladas.slice(0, 4); //extre los elementos del array peliculasMezclsadas
   
-  peliculaCorrecta = opciones[0];
+  peliculaCorrecta = opciones[0];//asigno a la variable peliculaCorrecta el primer elemento contenido en opciones
 
-  const opcionesDesordenadas = [...opciones].sort(() => 0.5 - Math.random());
+  const opcionesDesordenadas = [...opciones].sort(() => 0.5 - Math.random());// con sort reordeno los elementos evaluando unan funcion de comparacion, genero un numero decimal aleatorio que se le resta a 0;5. si el resultado es positivo sort altera el resultado.
 
   // Restablecer desenfoque e indicador de tiempo
   desenfoqueActual = 15;
@@ -205,7 +205,7 @@ const cargarTurno = () => {
 
   // Renderizar las 4 opciones en el DOM
   contOpciones.innerHTML = "";
-  opcionesDesordenadas.forEach(pelicula => {
+  opcionesDesordenadas.forEach(pelicula => {//con for each comienza a recorrer cada elemento del arreglo
     const boton = document.createElement("button"); //
     boton.classList.add("btn-opcion"); //
     boton.innerText = pelicula.title;
@@ -250,7 +250,7 @@ const validarRespuesta = (idSeleccionado, botonPresionado) => {
     jugadores[indiceTurnoActual].puntos += puntosGanados;
     txtPuntos.innerText = jugadores[indiceTurnoActual].puntos;
   } else {
-    botonPresionado.classList.add("incorrecta"); //buscar en diapo
+    botonPresionado.classList.add("incorrecta"); 
     resaltarCorrecta();
   }
 
