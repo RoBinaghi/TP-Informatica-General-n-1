@@ -1,161 +1,150 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/estilo.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <title>Juego de dados</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/estilo.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <title>Juego de dados</title>
 </head>
 <body>
-<header> 
-
-  <nav>
-    <ul>
+  <div id="contenedor">
+  <header> 
+    <nav>
+      <ul>
         <li><a href="index.html">Inicio</a></li>
         <li><a href="dados.html">Juego de dados</a></li>
         <li><a href="preguntas.html">Juego de preguntas</a></li>
         <li><a href="cartas.html">Juego de cartas</a></li>
         <li><a href="puntaje.html">Puntaje</a></li>
         <li><a href="proyecto.html">Sobre el proyecto</a></li>
-    </ul>    
- </nav>
-</header>
-<main class="mainconteiner">
-  <h1>21 con Dados</h1>
-  <!-- 1. SECCIÓN DE INSTRUCCIONES (Visible al cargar la página) -->
-  <section id="seccionInstrucciones">
-    <article>
-      <h2>Objetivo del Juego</h2>
-      <p>Acumular la mayor cantidad de puntos posibles sin superar el límite de 21 en cada ronda. El primer usuario en ganar 3 rondas se corona como el ganador definitivo de la partida.</p>
+      </ul>    
+    </nav>
+  </header>
 
-      <h2>Lanzamiento y Puntuación</h2>
-      <p>En cada tiro se lanzan 2 dados de 6 caras y el resultado modifica el puntaje acumulado:</p>
-      <ul>
-        <li><strong>Suma Estándar:</strong> El puntaje obtenido es la suma simple de ambos dados (Dado 1 + Dado 2).</li>
-        <li><strong>Doble As (1 y 1):</strong> Otorga la opción de sumar 2 o 14 puntos (según le convenga al usuario para no pasarse).</li>
-        <li><strong>Pares Iguales (2 y 2, 3 y 3, etc.):</strong> Duplican la suma obtenida en esa tirada (por ejemplo, un doble 4 suma 16 puntos en lugar de 8).</li>
-      </ul>
+  <main class="mainconteiner">
+    <h1>21 con Dados</h1>
 
-      <h2>Mecánica del Turno</h2>
-      <p>El usuario inicia su turno eligiendo entre <strong>Tirar</strong> o <strong>Plantarse</strong>:</p>
-      <ul>
-        <li>Puede lanzar los dados cuantas veces desee mientras el total de la ronda no supere los 21 puntos.</li>
-        <li><strong>Pérdida por Exceso (Bust):</strong> Si el acumulado supera los 21 puntos en cualquier tiro, el usuario suma 0 puntos en esa ronda y su turno termina automáticamente.</li>
-        <li><strong>Plantarse:</strong> Al presionar este botón, el usuario congela su puntaje actual y cede el turno al siguiente participante.</li>
-      </ul>
+    <!-- 1. SECCIÓN DE INSTRUCCIONES -->
+    <section id="seccionInstrucciones">
+      <article>
+        <h2>Objetivo del Juego</h2>
+        <p>Acumular la mayor cantidad de puntos posibles sin superar el límite de 21 en cada ronda. El primer usuario en ganar 3 rondas se corona como el ganador definitivo de la partida.</p>
 
-      <h2>Sistema de Puntuación y Rondas</h2>
-      <ul>
-        <li><strong>Puntos por Ronda:</strong> Al finalizar los turnos de todos los participantes, se comparan las puntuaciones finales válidas.</li>
-        <li><strong>Ganador de Ronda:</strong> El usuario con la puntuación válida más alta (más cercana a 21) recibe 1 Victoria en el marcador global.</li>
-        <li><strong>Empate:</strong> Si dos o más usuarios se plantan con la misma puntuación máxima, todos reciben 1 Victoria en esa ronda.</li>
-        <li><strong>Fin de la Partida:</strong> La partida termina inmediatamente cuando un usuario alcanza un total de 3 Victorias.</li>
-      </ul>
-    </article>
-  </section>
+        <h2>Lanzamiento y Puntuación</h2>
+        <p>En cada tiro se lanzan 2 dados de 6 caras y el resultado modifica el puntaje acumulado:</p>
+        <ul>
+          <li><strong>Suma Estándar:</strong> El puntaje obtenido es la suma simple de ambos dados (Dado 1 + Dado 2).</li>
+          <li><strong>Doble As (1 y 1):</strong> Otorga la opción de sumar 2 o 14 puntos (según le convenga al usuario para no pasarse).</li>
+          <li><strong>Pares Iguales (2 y 2, 3 y 3, etc.):</strong> Duplican la suma obtenida en esa tirada.</li>
+        </ul>
 
-  <!-- 2. BOTÓN INICIAR PARTIDA (Inmediatamente después de las instrucciones) -->
-  <div id="contenedorIniciar">
-    <button type="button" id="btnIniciarPartida"> Iniciar Partida</button>
-  </div>
+        <h2>Mecánica del Turno</h2>
+        <p>El usuario inicia su turno eligiendo entre <strong>Tirar</strong> o <strong>Plantarse</strong>:</p>
+        <ul>
+          <li>Puede lanzar los dados cuantas veces desee mientras el total de la ronda no supere los 21 puntos.</li>
+          <li><strong>Pérdida por Exceso (Bust):</strong> Si el acumulado supera los 21 puntos, suma 0 puntos en esa ronda y su turno termina automáticamente.</li>
+          <li><strong>Plantarse:</strong> Congela su puntaje actual y cede el turno al siguiente participante.</li>
+        </ul>
 
-  <!-- BOTÓN PARA RELEER INSTRUCCIONES (Oculto al principio, disponible durante la configuración/juego) -->
-  <button type="button" id="btnVerInstrucciones" hidden>Leer Instrucciones</button>
+        <h2>Sistema de Puntuación y Rondas</h2>
+        <ul>
+          <li><strong>Puntos por Ronda:</strong> Al finalizar los turnos, se comparan las puntuaciones finales válidas.</li>
+          <li><strong>Ganador de Ronda:</strong> El usuario con la puntuación válida más alta recibe 1 Victoria en el marcador global.</li>
+          <li><strong>Empate:</strong> Si dos o más usuarios se plantan con la misma puntuación máxima, todos reciben 1 Victoria.</li>
+          <li><strong>Fin de la Partida:</strong> La partida termina cuando un usuario alcanza 3 Victorias.</li>
+        </ul>
+      </article>
+    </section>
 
-  <!-- PASO 1 (div): Selección de modo de juego (Se muestra al hacer clic en Iniciar Partida) -->
-  <div id="pasoModo" hidden>
-    <label>¿Jugás solo o con alguien?</label><br>
-    <button type="button" id="jugarContraCompu">Jugar contra la computadora</button>
-    <button type="button" id="jugarConParticipantes">Jugar con más participantes</button>
-  </div>
+    <!-- 2. BOTÓN INICIAR PARTIDA -->
+    <div id="contenedorIniciar">
+      <button type="button" id="btnIniciarPartida">Iniciar Partida</button>
+    </div>
 
-  <!-- PASO 2 (form): Cantidad de participantes -->
-  <form id="ingresoDatos2" hidden>
-    <label>¿Cuántos participantes son?</label><br>
-    <input type="number" name="cantidadParticipantes" id="cantidadParticipantes" min="2"><br>
-    <button type="button" id="ingresarCantidad">Ingresar cantidad</button>
-  </form>
+    <!-- BOTÓN RELEER INSTRUCCIONES -->
+    <button type="button" id="btnVerInstrucciones" hidden>Leer Instrucciones</button>
 
-  <!-- PASO 3 (form): Nombre del participante -->
-  <form id="ingresoDatos3" hidden>
-    <label id="nombreNumero">Nombre del participante</label><br>
-    <input type="text" name="nombreJugador" id="nombreJugador"><br>
-    <button type="button" id="ingresarNombre">Ingresar Nombre</button>
-  </form>
+    <!-- PASO 1: Selección de modo -->
+    <div id="pasoModo" hidden>
+      <label>¿Jugás solo o con alguien?</label><br>
+      <button type="button" id="jugarContraCompu">Jugar contra la computadora</button>
+      <button type="button" id="jugarConParticipantes">Jugar con más participantes</button>
+    </div>
 
-<!-- PASO 4 (div): Tablero / Pantalla del Juego -->
-  <div id="pasoJuego" hidden>
-    
-    <!-- MESA / TABLERO PRINCIPAL DE DADOS -->
-    <div class="mesa-dados-seccion">
+    <!-- PASO 2: Cantidad de participantes -->
+    <form id="ingresoDatos2" hidden>
+      <label for="cantidadParticipantes">¿Cuántos participantes son?</label><br>
+      <input type="number" name="cantidadParticipantes" id="cantidadParticipantes" min="2"><br>
+      <button type="button" id="ingresarCantidad">Ingresar cantidad</button>
+    </form>
+
+    <!-- PASO 3: Nombre del participante -->
+    <form id="ingresoDatos3" hidden>
+      <label id="nombreNumero" for="nombreJugador">Nombre del participante</label><br>
+      <input type="text" name="nombreJugador" id="nombreJugador"><br>
+      <button type="button" id="ingresarNombre">Ingresar Nombre</button>
+    </form>
+
+    <!-- PASO 4: Tablero de Juego -->
+    <div id="pasoJuego" hidden>
       
-      <!-- Columna Izquierda: Indicador de Turno y Dados -->
-      <div class="columna-dados">
-        <h2 id="turnoJugador" class="indicador-turno">Turno de: </h2> 
-        <p class="titulo-resultados">Resultados de los dados:</p>
-        <div id="resultadosDados" class="galeria-dados">-</div>
-      </div>
-
-      <!-- Columna Derecha: Puntaje Actual Arriba + Botones de Acción -->
-      <div class="columna-acciones-puntaje">
-        
-        <!-- Recuadro para el Puntaje Actual (Arriba de los botones) -->
-        <div class="recuadro-puntaje">
-          <span class="etiqueta-puntaje">Puntaje actual</span>
-          <span id="puntajeActual" class="valor-puntaje">0</span>
+      <div class="mesa-dados-seccion">
+        <!-- Columna Izquierda: Turno y Dados -->
+        <div class="columna-dados">
+          <h2 id="turnoJugador" class="indicador-turno">Turno de: </h2> 
+          <p class="titulo-resultados">Resultados de los dados:</p>
+          <div id="resultadosDados" class="galeria-dados">-</div>
         </div>
 
-        <!-- Botones de Acción principal -->
-<!-- DENTRO DE DADOS.HTML (Sección .columna-acciones) -->
-<div class="columna-acciones">
-  <button type="button" id="tirarDados">Tirar dados</button>
-  <button type="button" id="plantarse">Plantarse</button>
-  <button type="button" id="desempatar" hidden>Desempatar</button>
-  
+        <!-- Columna Derecha: Puntaje y Botones -->
+        <div class="columna-acciones-puntaje">
+          <div class="recuadro-puntaje">
+            <span class="etiqueta-puntaje">Puntaje actual</span>
+            <span id="puntajeActual" class="valor-puntaje">0</span>
+          </div>
 
+          <div class="columna-acciones">
+            <button type="button" id="tirarDados">Tirar dados</button>
+            <button type="button" id="plantarse">Plantarse</button>
+            <button type="button" id="desempatar" hidden>Desempatar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal para Doble As -->
+      <div id="modalDobleAs" hidden class="modal-doble-as">
+        <h3>¡Obtuviste Doble As (1 y 1)!</h3>
+        <p>¿Cuántos puntos querés sumar a tu total?</p>
+        <button type="button" id="btnSumar2">Sumar 2 pts</button>
+        <button type="button" id="btnSumar14">Sumar 14 pts</button>
+      </div>
+
+      <p id="mensajeJuego"></p> 
+
+      <!-- MARCADOR DE VICTORIAS Y BOTÓN DE REINICIAR -->
+      <div class="seccion-inferior-victorias">
+        <div class="recuadro-victorias">
+          <h3>Marcador de Victorias</h3>
+          <p id="historialRondas">Aún no hay victorias registradas.</p>
+        </div>
+
+        <button type="button" id="verPuntajes" hidden>Ver Tabla de Puntajes</button>
+
+        <div class="contenedor-boton-reiniciar">
+          <button type="button" id="jugarDeNuevo">Reiniciar Partida</button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>Informática General TP N° 1 - Rocio Binaghi | Rojas Micaela</p>
+  </footer>
 </div>
-
-      </div>
-
-    </div>
-
-    <!-- Modal para la regla especial de Doble As -->
-    <div id="modalDobleAs" hidden class="modal-doble-as">
-      <h3>¡Obtuviste Doble As (1 y 1)!</h3>
-      <p>¿Cuántos puntos querés sumar a tu total?</p>
-      <button id="btnSumar2">Sumar 2 pts</button>
-      <button id="btnSumar14">Sumar 14 pts</button>
-    </div>
-
-    <p id="mensajeJuego"></p> 
-
-    <!-- ZONA INFERIOR: MARCADOR DE VICTORIAS Y BOTÓN DE REINICIAR AL LADO -->
-    <div class="seccion-inferior-victorias">
-      
-      <div class="recuadro-victorias">
-        <h3> Marcador de Victorias</h3>
-        <p id="historialRondas">Aún no hay victorias registradas.</p>
-      </div>
-  <!-- BOTÓN PARA NAVEGAR A LA TABLA DE PUNTAJES -->
-  <button type="button" id="verPuntajes" hidden>Ver Tabla de Puntajes</button>
-      <div class="contenedor-boton-reiniciar">
-        <button type="button" id="jugarDeNuevo">Reiniciar Partida</button>
-      </div>
-
-    </div>
-
-  </div>
-
-    <p id="historialRondas"></p> 
-  </div>
-</main>
- <footer>
-   <p>Informática General TP N° 1 - Rocio Binaghi | Rojas Micaela</p>
- </footer></div> 
- <script src="js/dados.js"></script>
-
+  <script src="js/dados.js"></script>
 </body>
 </html>

@@ -141,7 +141,7 @@ ingresarNombre.addEventListener("click", (e) => {
 // ==========================================
 // 2. Consumo de la API 
 // ==========================================
-async function obtenerPeliculas() { //
+async function obtenerPeliculas() { 
   try {
     const paginaAleatoria = Math.floor(Math.random() * 5) + 1; //mathfloor redondea un numero hacia abajo random genera un numero al azar entre 0y1
     const url = `${URL_BASE}/movie/popular?api_key=${API_KEY}&language=es-ES&page=${paginaAleatoria}`;
@@ -206,11 +206,11 @@ const cargarTurno = () => {
   // Renderizar las 4 opciones en el DOM
   contOpciones.innerHTML = "";
   opcionesDesordenadas.forEach(pelicula => {
-    const boton = document.createElement("button"); //[cite: 4]
-    boton.classList.add("btn-opcion"); //[cite: 4]
+    const boton = document.createElement("button"); //
+    boton.classList.add("btn-opcion"); //
     boton.innerText = pelicula.title;
-    boton.addEventListener("click", () => validarRespuesta(pelicula.id, boton)); //[cite: 3]
-    contOpciones.append(boton); //[cite: 4]
+    boton.addEventListener("click", () => validarRespuesta(pelicula.id, boton)); //
+    contOpciones.append(boton); //
   });
 
   iniciarTemporizador();
@@ -319,15 +319,15 @@ const renderizarPuntajesPartida = () => {
   const rankingPartida = [...jugadores].sort((a, b) => b.puntos - a.puntos);
 
   rankingPartida.forEach((j, index) => {
-    const li = document.createElement("li"); //[cite: 4]
+    const li = document.createElement("li"); 
     li.innerText = `${index + 1}. ${j.nombre}: ${j.puntos} puntos`;
-    listaPuntajesPartida.append(li); //[cite: 4]
+    listaPuntajesPartida.append(li); 
   });
 };
 
 const guardarRecordsPartida = () => {
-  const datosPrevios = localStorage.getItem("cinefilia_records"); //[cite: 2]
-  const records = datosPrevios ? JSON.parse(datosPrevios) : []; //[cite: 2, 3]
+  const datosPrevios = localStorage.getItem("cinefilia_records"); 
+  const records = datosPrevios ? JSON.parse(datosPrevios) : []; 
 
   // Recorrer y agregar los participantes de la partida actual al historial general
   jugadores.forEach(function(j) {
@@ -336,12 +336,12 @@ const guardarRecordsPartida = () => {
       puntos: j.puntos 
     });
   });
-  localStorage.setItem("cinefilia_records", JSON.stringify(records)); //[cite: 2]
+  localStorage.setItem("cinefilia_records", JSON.stringify(records)); 
 };
 
 const renderizarRecordsLocales = () => {
-  const datosPrevios = localStorage.getItem("cinefilia_records"); //[cite: 2]
-  const records = datosPrevios ? JSON.parse(datosPrevios) : []; //[cite: 2, 3]
+  const datosPrevios = localStorage.getItem("cinefilia_records"); 
+  const records = datosPrevios ? JSON.parse(datosPrevios) : []; 
 
   listaRecords.innerHTML = "";
 

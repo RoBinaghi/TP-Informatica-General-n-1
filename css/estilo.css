@@ -26,6 +26,7 @@ body {
 /* ==========================================
    ESTRUCTURA GENERAL / CONTENEDORES
    ========================================== */
+
 #contenedor, 
 header, 
 nav, 
@@ -175,13 +176,13 @@ nav a {
 }
 
 a:hover {
-  color: rgb(241, 201, 236);
-  background-color: rgb(100, 2, 87); 
+  color: rgb(187, 247, 255);
+  background-color:  #0056b3; 
 }
 
 a:active {
-  color: rgb(100, 2, 87);
-  background-color: rgb(241, 201, 236);
+  color:  #0056b3;
+  background-color: rgb(187, 247, 255);
 }
 
 header, footer {
@@ -411,9 +412,6 @@ input {
 /* ==========================================
    TABLERO DE JUEGO DE DADOS Y VISTAS
    ========================================== */
-/* ==========================================
-   TABLERO DE JUEGO DE DADOS Y VISTAS
-   ========================================== */
 
 #pasoJuego {
   display: flex;
@@ -472,7 +470,7 @@ input {
 
 /* Cada dado ocupa el 30% del espacio de la galería */
 .galeria-dados img {
-  width: 30% !important;
+  width: 30%;
   max-width: 6.25rem;
   height: auto;
   aspect-ratio: 1 / 1;
@@ -526,7 +524,7 @@ input {
 
 .columna-acciones button {
   width: 100%;
-  margin: 0 !important;
+  margin: 0;
 }
 
 /* Modal Doble As */
@@ -583,7 +581,7 @@ input {
 }
 
 .contenedor-boton-reiniciar button {
-  margin: 0 !important;
+  margin: 0;
   white-space: nowrap;
 }
 
@@ -656,15 +654,15 @@ input {
 
 /* Clase aplicada cuando la respuesta es correcta (Verde) */
 .btn-opcion.correcta {
-  background-color: #28a745 !important;
-  border-color: #28a745 !important;
+  background-color: #28a745 ;
+  border-color: #28a745;
   color: #ffffff;
 }
 
 /* Clase aplicada cuando la respuesta es incorrecta (Rojo) */
 .btn-opcion.incorrecta {
-  background-color: #dc3545 !important;
-  border-color: #dc3545 !important;
+  background-color: #dc3545 ;
+  border-color: #dc3545 ;
   color: #ffffff;    
 }
 
