@@ -1,6 +1,6 @@
 * { 
   box-sizing: border-box; /*para que los bordes y el padding esten incluidos en el ancho total de la caja*/
-  margin: 0; /* elimina el borde por defecto*/
+  margin: 0; /* elimina el margen por defecto*/
   padding: 0; /*elimina el padding por defecto*/
 }      
 

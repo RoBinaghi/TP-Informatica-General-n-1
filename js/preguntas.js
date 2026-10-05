@@ -353,28 +353,29 @@ const renderizarRecordsLocales = () => {
   records.sort((a, b) => b.puntos - a.puntos);
 
 };
-
+//Boton para reiniciar el juego.
 btnReiniciar.addEventListener("click", () => { 
-  pantallaFinal.hidden = true;
+  pantallaFinal.hidden = true;//la propiedad hidden oculta la pantalla final.
   btnReiniciar.hidden = true
   marcador.hidden = true;
   pasoJuego.hidden = true;
-  ingresoDatos2.hidden = false;
-  ingresoDatos3.hidden = false
-
+  ingresoDatos2.hidden = false; //solo muestra la cantidad de participantes.
+  ingresoDatos3.hidden = true; 
+//restablezco el campo y el boton de cantidad de participantes.
   numeroParticipantes.value = "";
-  numeroParticipantes.disabled = false;
-
+  numeroParticipantes.disabled = false; //con la propiedad disabled = false habilito los elementos desabilitados
+  ingresarCantidad.disbled = false;
+//dejo desabilitado y limpios los campos del paso de los nombres
   nombreJugador.value = "";
   nombreJugador.disabled = true;
   ingresarCantidad.disabled = false;
   ingresarNombre.disabled = true;
-
+//reinicio las variables globales de control de la partida.
   listaNombres = [];
   jugadores = [];
   indiceTurnoActual = 0;
   rondaActual = 1;
-
+//Limpio los temporizadores activos.
   clearInterval(timerInterval);
   
 });
